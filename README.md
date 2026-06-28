@@ -139,8 +139,6 @@ This lightweight architecture provides an efficient ETL workflow while remaining
 - Simplified automation and scheduling
 - Interactive reporting using Plotly HTML
 
----
-
 ## Why Interactive HTML Reports?
 
 Instead of relying on dashboard servers or commercial BI tools, this project generates standalone Plotly HTML reports that engineers can share and explore directly in a web browser.
