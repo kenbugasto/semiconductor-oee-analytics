@@ -195,36 +195,72 @@ Instead of relying on dashboard servers or commercial BI tools, this project gen
 
 ---
 
-# 🔄 ETL Workflow
-
-The project follows a structured ETL workflow similar to production data engineering pipelines.
+## 🏗️ ETL Workflow - Medallion Architecture
 
 ```mermaid
-flowchart TD
+flowchart LR
 
-A[Handler CSV Logs]
-B[Production TXT Logs]
+A[Source Systems<br/>Handler CSV Logs<br/>Production TXT Logs]
 
-A --> C[Data Cleaning]
-B --> C
+A --> B[Bronze Layer<br/>Raw File Ingestion<br/>Schema-on-read<br/>Minimal Validation]
 
-C --> D[Standardization]
-D --> E[Production Lot Matching]
-E --> F[Hourly Aggregation]
-F --> G[KPI Calculation]
-G --> H[OEE Analytics]
+B --> C[Silver Layer<br/>Cleaned & Standardized Data<br/>Timestamp Normalization<br/>Event Categorization<br/>Lot Matching]
 
-H --> I[Interactive HTML Reports]
-H --> J[CSV Analytics Exports]
+C --> D[Gold Layer<br/>Analytics-Ready Datasets<br/>Hourly Aggregation<br/>KPI Calculation<br/>OEE Analytics]
+
+D --> E[Interactive HTML Reports]
+D --> F[CSV Analytics Exports]
 ```
 
 ---
+
+
+## 🧩 Analytical Dataset Design
+
+Although this project does not use a physical database, the ETL pipeline follows a structured analytics model using Pandas DataFrames and CSV exports.
+
+The pipeline organizes manufacturing data into three logical dataset layers:
+
+### Bronze - Raw Manufacturing Data
+
+Represents source-level records loaded from manufacturing systems.
+
+Examples:
+
+* Raw handler event logs
+* Raw production test logs
+
+### Silver - Cleaned and Standardized Data
+
+Represents validated manufacturing records after cleaning and transformation.
+
+Examples:
+
+* Standardized handler events
+* Parsed production test records
+* Matched production lots
+* Normalized timestamps
+* Categorized downtime events
+
+### Gold - Reporting and KPI Datasets
+
+Represents analytics-ready datasets used for OEE reporting.
+
+Examples:
+
+* Hourly production summary
+* Hourly equipment downtime summary
+* Handler-level KPI summary
+* Daily OEE summary
+* Rolling 7-day KPI summary
+
+These Gold datasets serve the same purpose as reporting tables in a database-backed analytics platform, but are implemented locally using Pandas DataFrames and CSV exports.
 
 # 📈 Overall Equipment Effectiveness (OEE)
 
 The platform calculates Overall Equipment Effectiveness using three manufacturing KPIs.
 
-```text
+---
 
 OEE = Utilization × Output Attainment × Yield
 
