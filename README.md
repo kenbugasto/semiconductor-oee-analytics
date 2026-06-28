@@ -172,47 +172,13 @@ D --> F[CSV Analytics Exports]
 
 ---
 
-
 ## 🧩 Analytical Dataset Design
 
-Although this project does not use a physical database, the ETL pipeline follows a structured analytics model using Pandas DataFrames and CSV exports.
-
-The pipeline organizes manufacturing data into three logical dataset layers:
-
-### Bronze - Raw Manufacturing Data
-
-Represents source-level records loaded from manufacturing systems.
-
-Examples:
-
-* Raw handler event logs
-* Raw production test logs
-
-### Silver - Cleaned and Standardized Data
-
-Represents validated manufacturing records after cleaning and transformation.
-
-Examples:
-
-* Standardized handler events
-* Parsed production test records
-* Matched production lots
-* Normalized timestamps
-* Categorized downtime events
-
-### Gold - Reporting and KPI Datasets
-
-Represents analytics-ready datasets used for OEE reporting.
-
-Examples:
-
-* Hourly production summary
-* Hourly equipment downtime summary
-* Handler-level KPI summary
-* Daily OEE summary
-* Rolling 7-day KPI summary
-
-These Gold datasets serve the same purpose as reporting tables in a database-backed analytics platform, but are implemented locally using Pandas DataFrames and CSV exports.
+| Layer | Description |
+|--------|-------------|
+| Bronze | Raw CSV and TXT files from FTP |
+| Silver | Cleaned, standardized, matched manufacturing datasets |
+| Gold | Hourly KPI datasets powering OEE reports and CSV exports |
 
 ---
 
