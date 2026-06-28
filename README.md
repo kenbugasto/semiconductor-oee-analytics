@@ -2,7 +2,7 @@
 
 > **Note:** All data, equipment names, handler identifiers, production lots, station names, event categories, and manufacturing identifiers have been fully anonymized for public portfolio use. No proprietary manufacturing or customer-sensitive information is included.
 
-Production-style semiconductor manufacturing analytics platform built with **Python**, **Pandas**, **NumPy**, and **Plotly**.
+Production-style semiconductor manufacturing OEE analytics platform built with **Python**, **Pandas**, **NumPy**, and **Plotly**.
 
 ---
 
