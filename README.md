@@ -56,8 +56,6 @@ Equipment-level dashboard for analyzing individual handler performance.
 - [oee_per_handler_report_HDLR02.html](https://kenbugasto.github.io/semiconductor-oee-analytics/demo/oee_per_handler_report_HDLR02.html)
 - [oee_per_handler_report_HDLR07.html](https://kenbugasto.github.io/semiconductor-oee-analytics/demo/oee_per_handler_report_HDLR07.html)
 
----
-
 ## 📈 Rolling 7-Day OEE Dashboard
 
 Historical manufacturing dashboard for monitoring KPI trends over time.
