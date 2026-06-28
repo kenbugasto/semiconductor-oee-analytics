@@ -35,8 +35,6 @@ The analytics workflow is designed around semiconductor final-test operations, e
 
 # 🚀 Interactive HTML Reports
 
-The application generates standalone interactive HTML reports that can be opened directly in any modern web browser without requiring Python, databases, or BI software.
-
 ## 🔧 Overall 24-Hour Per-Handler OEE Dashboard
 
 Equipment-level dashboard for analyzing individual handler performance.
