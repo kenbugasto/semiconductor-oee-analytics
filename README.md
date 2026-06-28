@@ -137,7 +137,6 @@ Instead of relying on dashboard servers or commercial BI tools, this project gen
 
 * No software installation required
 * Interactive charts
-* Zooming and filtering
 * Easy report sharing
 * Lightweight deployment
 
