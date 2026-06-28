@@ -268,23 +268,13 @@ The platform calculates Overall Equipment Effectiveness using three manufacturin
 
 OEE = Utilization × Output Attainment × Yield
 
----
+* Utilization: Measures productive operating time after accounting for equipment downtime.
 
-## Utilization
+* Output Attainment: Measures actual production throughput relative to target manufacturing capacity.
 
-Measures productive operating time after accounting for equipment downtime.
-
----
-
-## Output Attainment
-
-Measures actual production throughput relative to target manufacturing capacity.
+* Yield: Measures manufacturing quality using PASS versus total tested units.
 
 ---
-
-## Yield
-
-Measures manufacturing quality using PASS versus total tested units.
 
 # 🐍 Production Python ETL Design
 
