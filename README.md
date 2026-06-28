@@ -111,44 +111,6 @@ After ingestion, both datasets are standardized and matched using production lot
 
 ---
 
-# ⭐ Core Features
-
-## ETL & Data Engineering
-
-* Automated CSV/TXT ingestion
-* Multi-source ETL pipeline
-* Manufacturing data standardization
-* Timestamp normalization
-* Production lot matching
-* Configuration-driven architecture
-* Automated HTML report generation
-* Automated CSV analytics exports
-
----
-
-## Manufacturing Analytics
-
-* Overall Equipment Effectiveness (OEE)
-* Equipment utilization analysis
-* Output attainment monitoring
-* Yield monitoring
-* Downtime categorization
-* Handler performance analysis
-* Hourly production monitoring
-* Lot-level production analytics
-
----
-
-## Historical KPI Monitoring
-
-* Rolling 7-day OEE analysis
-* Daily KPI trend monitoring
-* Historical downtime comparison
-* Equipment performance trending
-* Manufacturing productivity analysis
-
----
-
 # 🛠️ Technology Stack
 
 | Category            | Technology             |
@@ -466,56 +428,6 @@ Features demonstrated:
 * Historical downtime comparison
 
 ---
----
-
-# ⚙️ Production ETL Design Principles
-
-Although developed as a local Python application, the project follows several design patterns commonly found in production ETL pipelines.
-
-### Data Validation
-
-* Timestamp normalization
-* Missing value handling
-* Numeric field validation
-* Duplicate record protection
-
-### Data Transformation
-
-* Event categorization
-* Production lot matching
-* Hourly aggregation
-* KPI modeling
-
-### Reporting Layer
-
-* Interactive Plotly dashboards
-* Standalone HTML reports
-* Automated CSV exports
-* Configuration-driven execution
-
----
-
-# 💡 Engineering Takeaways
-
-This project demonstrates how production manufacturing data from independent systems can be transformed into reliable engineering analytics through a structured ETL workflow.
-
-Key concepts demonstrated include:
-
-* Multi-source manufacturing data integration
-* Defensive ETL development
-* Time-series manufacturing analytics
-* KPI modeling
-* Automated reporting
-* Modular Python architecture
-* Production-oriented analytics design
-
-The overall architecture emphasizes maintainability, reproducibility, and engineering-focused reporting while remaining lightweight enough to run as a scheduled local analytics application.
-
-# 📊 Engineering Highlights
-
-This project demonstrates production-oriented data engineering and manufacturing analytics concepts through a complete local ETL pipeline.
-
----
 
 ## 🛠️ Data Engineering
 
@@ -628,37 +540,21 @@ This repository demonstrates practical applications of data engineering, analyti
 | Data Validation     | KPI Trend Monitoring    | Separation of Concerns            |
 | Automated Reporting | Downtime Analytics      | Maintainable Codebase             |
 
----
-
-# 🎯 Learning Outcomes
-
-This project was developed to demonstrate practical experience in:
-
-* Building production-style ETL pipelines
-* Integrating multiple manufacturing data sources
-* Applying defensive data engineering practices
-* Designing engineering KPI models
-* Automating manufacturing analytics
-* Creating interactive reporting solutions using Python
-
-Although implemented as a local analytics application, the overall workflow reflects design patterns commonly found in enterprise data engineering solutions.
 
 ---
 
-# 👤 Author
+## 👤 Author
 
-This repository was developed as part of my data engineering portfolio to demonstrate practical experience in building production-oriented manufacturing analytics solutions.
+This project was developed as part of my Data Engineering portfolio.
 
-The project emphasizes:
+Key concepts demonstrated include:
 
-* Production ETL development
-* Manufacturing data integration
-* KPI modeling
-* Automated reporting
-* Data quality and validation
-* Modular Python architecture
-
-The implementation reflects the type of engineering workflows used to transform raw manufacturing data into actionable operational insights while maintaining a lightweight, maintainable, and reproducible analytics pipeline.
+- Multi-source ETL
+- Manufacturing analytics
+- Pandas & NumPy
+- Defensive ETL
+- Interactive reporting
+- KPI modeling
 
 ---
 
