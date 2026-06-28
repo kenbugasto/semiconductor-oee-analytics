@@ -37,8 +37,6 @@ The analytics workflow is designed around semiconductor final-test operations, e
 
 The application generates standalone interactive HTML reports that can be opened directly in any modern web browser without requiring Python, databases, or BI software.
 
-All reports shown below use fully anonymized manufacturing data.
-
 ## 🔧 Overall 24-Hour Per-Handler OEE Dashboard
 
 Equipment-level dashboard for analyzing individual handler performance.
@@ -196,77 +194,58 @@ OEE = Utilization × Output Attainment × Yield
 
 ---
 
-# 🐍 Production Python ETL Design
+## 🐍 Python ETL Example
 
-Python serves as the primary ETL and analytics layer for integrating handler event logs with production test records.
-
-Because manufacturing data often contains inconsistent timestamps, duplicate records, malformed files, missing values, and unmatched production lots, the pipeline follows a defensive ETL design that prioritizes reliability and data quality.
-
-## ETL Responsibilities
-
-The application automates the complete manufacturing analytics workflow, including:
-
-* CSV handler log ingestion
-* TXT production file parsing
-* Timestamp normalization
-* Numeric field validation
-* Event categorization
-* Production lot matching
-* Hourly production aggregation
-* OEE KPI calculation
-* Rolling 7-day KPI generation
-* Interactive HTML report generation
-* CSV analytics exports
-
-# 📊 Example: OEE KPI Calculation
-
-The function below calculates the three manufacturing KPIs required to produce Overall Equipment Effectiveness (OEE).
+The pipeline integrates handler CSV event logs with production TXT files using **Pandas** and **NumPy**, while applying defensive validation to handle inconsistent manufacturing data.
 
 ```python
-def calc_oee_metrics(output_pivot, efficiency_pct):
-    availability_pct = (
-        float(efficiency_pct["UP_TIME"].mean())
-        if "UP_TIME" in efficiency_pct.columns
-        else 0.0
-    )
+# Load handler CSV
+handler_df = pd.read_csv(csv_file)
 
-    total_units = float(output_pivot["TOTAL"].sum())
-    pass_units = float(output_pivot["PASS"].sum())
+required_cols = ["OccurDateTime", "LotInfo", "HandlerID"]
+missing = [c for c in required_cols if c not in handler_df.columns]
+if missing:
+    raise ValueError(f"Missing columns: {missing}")
 
-    quality_pct = (
-        pass_units / total_units * 100
-        if total_units > 0
-        else 0.0
-    )
+handler_df["event_time"] = parse_mixed_datetime(handler_df["OccurDateTime"])
+handler_df["duration_sec"] = clean_numeric(handler_df["MSGStartTime"])
 
-    if "TARGET_UPH_ACTIVE_SITES" in output_pivot.columns:
-        actual_units = output_pivot["TOTAL"].sum()
-        target_units = output_pivot["TARGET_UPH_ACTIVE_SITES"].sum()
+# Parse production TXT
+prod_df = parse_txt_2d_list(txt_file)
 
-        performance_pct = (
-            actual_units / target_units * 100
-            if target_units > 0
-            else 0.0
-        )
-    else:
-        performance_pct = 0.0
+# Match production lots
+matched_lots = set(handler_df["LotInfo"]).intersection(prod_df["schedule_no"])
 
-    performance_pct = min(performance_pct, 100.0)
+handler_matched = handler_df[
+    handler_df["LotInfo"].isin(matched_lots)
+]
 
-    oee_pct = (
-        availability_pct / 100
-        * performance_pct / 100
-        * quality_pct / 100
-        * 100
-    )
+prod_matched = prod_df[
+    prod_df["schedule_no"].isin(matched_lots)
+]
 
-    return {
-        "OEE": oee_pct,
-        "Utilization": availability_pct,
-        "Output Attainment": performance_pct,
-        "Yield": quality_pct,
-    }
+# Pandas aggregation
+hourly_output = (
+    prod_matched
+    .groupby(["test_hour", "pf_status"])
+    .agg(units=("serial_no", "count"))
+    .reset_index()
+)
+
+# NumPy KPI calculation
+hourly_output["yield_pct"] = np.where(
+    hourly_output["units"] > 0,
+    hourly_output["PASS"] / hourly_output["units"] * 100,
+    0
+)
 ```
+
+### Engineering Concepts Demonstrated
+
+- **Pandas** — CSV ingestion, grouping, aggregation, and ETL transformations
+- **NumPy** — vectorized KPI calculations using `np.where()`
+- **Defensive Coding** — schema validation, timestamp parsing, numeric cleaning, and safe handling of missing values
+- **Manufacturing ETL** — integration of independent CSV and TXT manufacturing systems through production lot matching
 
 ## Engineering Discussion
 
@@ -299,47 +278,6 @@ Instead of calculating KPIs directly from daily totals, the ETL pipeline first a
 * Hourly yield variation
 
 These hourly datasets are then summarized into daily manufacturing KPIs used by both the 24-hour and Rolling 7-Day reports.
-
----
-
-# 🏗️ Analytics Processing Grain
-
-The application intentionally separates processing into two analytical grains.
-
-## 24-Hour Manufacturing Report
-
-```text
-Handler
-+ Report Day
-+ Hour
-```
-
-Used for:
-
-* Hourly production output
-* Hourly downtime analysis
-* Daily OEE calculation
-* Handler-level reporting
-
----
-
-## Rolling 7-Day Manufacturing Report
-
-```text
-Handler
-+ Production Day
-+ Hour
-```
-
-Used for:
-
-* Daily OEE trend
-* Utilization trend
-* Output attainment trend
-* Yield trend
-* Historical downtime analysis
-
-By calculating each production day independently before generating trend visualizations, the application ensures that every point in the rolling report is directly comparable with the standalone 24-hour report.
 
 ---
 
