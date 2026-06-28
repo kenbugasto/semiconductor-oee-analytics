@@ -266,8 +266,6 @@ These Gold datasets serve the same purpose as reporting tables in a database-bac
 
 The platform calculates Overall Equipment Effectiveness using three manufacturing KPIs.
 
----
-
 OEE = Utilization × Output Attainment × Yield
 
 ---
@@ -445,6 +443,41 @@ By calculating each production day independently before generating trend visuali
 
 ---
 
+# 🖼️ Dashboard Screenshots
+
+## 🔧 Overall 24-Hour Per-Handler OEE Report
+
+![Overall 24-Hour Per-Handler OEE KPI Gauges](screenshots/oee_24H_KPI_gauges.png)
+
+![Overall 24-Hour Output vs Efficiency](screenshots/oee_24H_output_vs_efficiency.png)
+
+![Overall 24-Hour Handler Event Fail Tallying](screenshots/oee_24H_handler_event_fail_tallying.png)
+
+Features demonstrated:
+
+* Per Handler performance KPIs
+* Equipment downtime
+* Hourly throughput
+* Event distribution
+* Loss analysis
+
+---
+
+## 📈 Rolling 7-Day OEE Report
+
+![Rolling 7-Day OEE Report](screenshots/oee_7days_rolling.png)
+
+Features demonstrated:
+
+* Daily OEE trend
+* Utilization trend
+* Output attainment trend
+* Yield trend
+* Historical downtime comparison
+
+---
+---
+
 # ⚙️ Production ETL Design Principles
 
 Although developed as a local Python application, the project follows several design patterns commonly found in production ETL pipelines.
@@ -561,39 +594,6 @@ The application is organized using a modular architecture to improve maintainabi
 
 ---
 
-# 🖼️ Dashboard Screenshots
-
-## 🔧 Overall 24-Hour Per-Handler OEE Report
-
-![Overall 24-Hour Per-Handler OEE KPI Gauges](screenshots/oee_24H_KPI_gauges.png)
-
-![Overall 24-Hour Output vs Efficiency](screenshots/oee_24H_output_vs_efficiency.png)
-
-![Overall 24-Hour Handler Event Fail Tallying](screenshots/oee_24H_handler_event_fail_tallying.png)
-
-Features demonstrated:
-
-* Per Handler performance KPIs
-* Equipment downtime
-* Hourly throughput
-* Event distribution
-* Loss analysis
-
----
-
-## 📈 Rolling 7-Day OEE Report
-
-![Rolling 7-Day OEE Report](screenshots/oee_7days_rolling.png)
-
-Features demonstrated:
-
-* Daily OEE trend
-* Utilization trend
-* Output attainment trend
-* Yield trend
-* Historical downtime comparison
-
----
 
 # 🛣️ Project Roadmap
 
@@ -637,31 +637,6 @@ This repository demonstrates practical applications of data engineering, analyti
 | Defensive ETL       | Time-Series Analysis    | Configuration-Driven Architecture |
 | Data Validation     | KPI Trend Monitoring    | Separation of Concerns            |
 | Automated Reporting | Downtime Analytics      | Maintainable Codebase             |
-
----
-
-# 📁 Repository Structure
-
-```text
-Semiconductor_OEE_Analytics/
-│
-├── config/              # Configuration files
-├── data/
-│   ├── handler_logs/    # CSV equipment event logs
-│   └── production/      # TXT production test logs
-│
-├── demo/                # Sample HTML reports
-├── reports/             # Generated reports
-├── screenshots/         # Dashboard screenshots
-├── src/
-│   ├── etl/
-│   ├── analytics/
-│   ├── reporting/
-│   └── utils/
-│
-├── README.md
-└── requirements.txt
-```
 
 ---
 
