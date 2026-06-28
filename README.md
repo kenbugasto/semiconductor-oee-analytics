@@ -523,7 +523,9 @@ The application is organized using a modular architecture to improve maintainabi
 
 ## 🔧 Overall 24-Hour Per-Handler OEE Report
 
-> ![Overall 24-Hour Per-Handler OEE Report](screenshots/medallion_architecture.png)
+> ![Overall 24-Hour Per-Handler OEE Report](screenshots/oee_24H_KPI_gauges.png)
+> ![Overall 24-Hour Per-Handler OEE Report](screenshots/oee_24H_output_vs_efficiency.png)
+> ![Overall 24-Hour Per-Handler OEE Report](screenshots/oee_24H_handler_event_fail_tallying.png)
 
 Features demonstrated:
 
@@ -535,9 +537,9 @@ Features demonstrated:
 
 ---
 
-## 📈 Rolling 7-Day Dashboard
+## 📈 Rolling 7-Day OEE Report
 
-> *(Insert screenshot here)*
+> ![Rolling 7-Day OEE Report](screenshots/oee_7days_rolling.png)
 
 Features demonstrated:
 
