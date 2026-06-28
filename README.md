@@ -214,6 +214,8 @@ Examples:
 
 These Gold datasets serve the same purpose as reporting tables in a database-backed analytics platform, but are implemented locally using Pandas DataFrames and CSV exports.
 
+---
+
 # 📈 Overall Equipment Effectiveness (OEE)
 
 The platform calculates Overall Equipment Effectiveness using three manufacturing KPIs.
