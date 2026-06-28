@@ -33,7 +33,7 @@ The analytics workflow is designed around semiconductor final-test operations, e
 
 ---
 
-# 🚀 Interactive HTML Reports
+# 🚀 Dashboard Output
 
 ## 🔧 Overall 24-Hour Per-Handler OEE Dashboard
 
