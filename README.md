@@ -523,9 +523,11 @@ The application is organized using a modular architecture to improve maintainabi
 
 ## 🔧 Overall 24-Hour Per-Handler OEE Report
 
-> ![Overall 24-Hour Per-Handler OEE Report](screenshots/oee_24H_KPI_gauges.png)
-> ![Overall 24-Hour Per-Handler OEE Report](screenshots/oee_24H_output_vs_efficiency.png)
-> ![Overall 24-Hour Per-Handler OEE Report](screenshots/oee_24H_handler_event_fail_tallying.png)
+![Overall 24-Hour Per-Handler OEE KPI Gauges](screenshots/oee_24H_KPI_gauges.png)
+
+![Overall 24-Hour Output vs Efficiency](screenshots/oee_24H_output_vs_efficiency.png)
+
+![Overall 24-Hour Handler Event Fail Tallying](screenshots/oee_24H_handler_event_fail_tallying.png)
 
 Features demonstrated:
 
@@ -539,7 +541,7 @@ Features demonstrated:
 
 ## 📈 Rolling 7-Day OEE Report
 
-> ![Rolling 7-Day OEE Report](screenshots/oee_7days_rolling.png)
+![Rolling 7-Day OEE Report](screenshots/oee_7days_rolling.png)
 
 Features demonstrated:
 
