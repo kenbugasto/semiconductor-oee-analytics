@@ -41,41 +41,23 @@ All reports shown below use fully anonymized manufacturing data.
 
 ---
 
-## 📊 Overall 24-Hour OEE Dashboard
-
-Provides a production-wide view of manufacturing performance.
-
-### Features
-
-* OEE KPI dashboard
-* Hourly production output
-* Equipment utilization
-* Output attainment
-* Yield monitoring
-* Downtime loss analysis
-
-**Demo**
-
-`demo/oee_overall_report.html`
-
----
-
-## 🔧 Per-Handler OEE Dashboard
+## 🔧 Overall 24-Hour Per-Handler OEE Dashboard
 
 Equipment-level dashboard for analyzing individual handler performance.
 
 ### Features
 
 * Handler KPI summary
-* Hourly production analysis
+* Hourly production analysis for the whole 24 hours of the previous day
 * Equipment downtime monitoring
 * Downtime event distribution
 * Handler-specific loss analysis
 
 **Demo**
 
-`demo/oee_per_handler_report.html`
-
+- [oee_per_handler_report_HDLR02.html](https://kenbugasto.github.io/semiconductor-oee-analytics/demo/oee_per_handler_report_HDLR02.html)
+- [oee_per_handler_report_HDLR07.html](https://kenbugasto.github.io/semiconductor-oee-analytics/demo/oee_per_handler_report_HDLR07.html)
+- 
 ---
 
 ## 📈 Rolling 7-Day OEE Dashboard
@@ -93,7 +75,7 @@ Historical manufacturing dashboard for monitoring KPI trends over time.
 
 **Demo**
 
-`demo/oee_rolling_7day_report.html`
+[oee_rolling_7day_report.html](https://kenbugasto.github.io/semiconductor-oee-analytics/demo/oee_rolling_7day_report.html)
 
 ---
 
