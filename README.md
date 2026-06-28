@@ -168,16 +168,22 @@ After ingestion, both datasets are standardized and matched using production lot
 
 ## Why Python?
 
-Python provides a complete ecosystem for ETL development, manufacturing analytics, numerical computation, and automated reporting while maintaining a lightweight deployment model suitable for engineering environments.
+Python was selected as the primary ETL and analytics platform because the manufacturing data is delivered daily through a structured FTP directory containing curated CSV equipment logs and TXT production records.
+
+Since the source files are already organized, versioned, and consumed as batch datasets, introducing a relational database would add unnecessary complexity without providing significant analytical benefit.
+
+Instead, the application processes the source files directly using Pandas, transforming them into analytics-ready datasets before generating interactive HTML reports and CSV exports.
+
+This lightweight architecture provides an efficient ETL workflow while remaining easy to deploy, maintain, and automate within an engineering environment.
 
 ### Benefits
 
-* Mature ETL ecosystem
-* Excellent data processing libraries
-* Powerful numerical computation
-* Interactive visualization support
-* Simple automation and scheduling
-* Minimal deployment requirements
+- Direct processing of curated manufacturing files
+- No database infrastructure required
+- Lightweight deployment
+- Fast batch processing using Pandas
+- Simplified automation and scheduling
+- Interactive reporting using Plotly HTML
 
 ---
 
