@@ -66,7 +66,7 @@ Historical manufacturing dashboard for monitoring KPI trends over time.
 
 **🌐 Launch Interactive Dashboard Demo:**  
 
-[oee_rolling_7day_report.html](https://kenbugasto.github.io/semiconductor-oee-analytics/demo/oee_rolling_7day_report.html)
+- [oee_rolling_7day_report.html](https://kenbugasto.github.io/semiconductor-oee-analytics/demo/oee_rolling_7day_report.html)
 
 ---
 
