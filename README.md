@@ -53,7 +53,7 @@ Equipment-level dashboard for analyzing individual handler performance.
 * Downtime event distribution
 * Handler-specific loss analysis
 
-**Demo**
+**🌐 Launch Interactive Dashboard Demo:**  
 
 - [oee_per_handler_report_HDLR02.html](https://kenbugasto.github.io/semiconductor-oee-analytics/demo/oee_per_handler_report_HDLR02.html)
 - [oee_per_handler_report_HDLR07.html](https://kenbugasto.github.io/semiconductor-oee-analytics/demo/oee_per_handler_report_HDLR07.html)
@@ -73,7 +73,7 @@ Historical manufacturing dashboard for monitoring KPI trends over time.
 * Top downtime events
 * Seven-day manufacturing performance comparison
 
-**Demo**
+**🌐 Launch Interactive Dashboard Demo:**  
 
 [oee_rolling_7day_report.html](https://kenbugasto.github.io/semiconductor-oee-analytics/demo/oee_rolling_7day_report.html)
 
