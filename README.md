@@ -39,8 +39,6 @@ The application generates standalone interactive HTML reports that can be opened
 
 All reports shown below use fully anonymized manufacturing data.
 
----
-
 ## 🔧 Overall 24-Hour Per-Handler OEE Dashboard
 
 Equipment-level dashboard for analyzing individual handler performance.
