@@ -87,8 +87,7 @@ The ETL pipeline integrates two independent manufacturing systems into a unified
 - PASS / FAIL status
 - Test time
 - Test flow
-- Site informationon
-* Site information
+- Site information
 
 After ingestion, both datasets are standardized and matched using production lot information to produce engineering-ready manufacturing analytics.
 
@@ -220,15 +219,25 @@ prod_matched = prod_df[
 # Pandas aggregation
 hourly_output = (
     prod_matched
-    .groupby(["test_hour", "pf_status"])
-    .agg(units=("serial_no", "count"))
-    .reset_index()
+    .pivot_table(
+        index="test_hour",
+        columns="pf_status",
+        values="serial_no",
+        aggfunc="count",
+        fill_value=0
+    )
 )
 
-# NumPy KPI calculation
+for col in ["PASS", "FAIL"]:
+    if col not in hourly_output.columns:
+        hourly_output[col] = 0
+
+hourly_output["total_units"] = hourly_output["PASS"] + hourly_output["FAIL"]
+
+# Numpy KPI calculation
 hourly_output["yield_pct"] = np.where(
-    hourly_output["units"] > 0,
-    hourly_output["PASS"] / hourly_output["units"] * 100,
+    hourly_output["total_units"] > 0,
+    hourly_output["PASS"] / hourly_output["total_units"] * 100,
     0
 )
 ```
