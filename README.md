@@ -236,8 +236,6 @@ Python serves as the primary ETL and analytics layer for integrating handler eve
 
 Because manufacturing data often contains inconsistent timestamps, duplicate records, malformed files, missing values, and unmatched production lots, the pipeline follows a defensive ETL design that prioritizes reliability and data quality.
 
----
-
 ## ETL Responsibilities
 
 The application automates the complete manufacturing analytics workflow, including:
@@ -253,8 +251,6 @@ The application automates the complete manufacturing analytics workflow, includi
 * Rolling 7-day KPI generation
 * Interactive HTML report generation
 * CSV analytics exports
-
----
 
 # 📊 Example: OEE KPI Calculation
 
@@ -306,8 +302,6 @@ def calc_oee_metrics(output_pivot, efficiency_pct):
     }
 ```
 
----
-
 ## Engineering Discussion
 
 Rather than calculating OEE directly from raw manufacturing logs, the application first transforms production and equipment events into hourly analytical datasets before calculating business KPIs.
@@ -315,8 +309,6 @@ Rather than calculating OEE directly from raw manufacturing logs, the applicatio
 This layered approach separates data ingestion, transformation, aggregation, and reporting, making the pipeline easier to validate, maintain, and extend.
 
 The calculation function also follows defensive programming practices to ensure reports remain stable even when manufacturing data is incomplete.
-
----
 
 ## Defensive ETL Techniques
 
@@ -327,8 +319,6 @@ The implementation includes several safeguards commonly used in production data 
 * Caps Output Attainment at 100%
 * Handles zero-production scenarios safely
 * Produces standardized KPI outputs for downstream reporting
-
----
 
 ## Why Hourly Aggregation?
 
@@ -404,8 +394,6 @@ Features demonstrated:
 * Hourly throughput
 * Event distribution
 * Loss analysis
-
----
 
 ## 📈 Rolling 7-Day OEE Report
 
@@ -487,7 +475,6 @@ The application is organized using a modular architecture to improve maintainabi
 * Lightweight deployment model
 
 ---
-
 
 # 🛣️ Project Roadmap
 
