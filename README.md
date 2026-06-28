@@ -1,297 +1,298 @@
-````md
 # 📊 Semiconductor OEE Analytics
 
-> **Note:** All data, device names, handler names, production lots, stations, event categories, and identifiers shown in this repository have been fully anonymized for public portfolio usage. No proprietary manufacturing or customer-sensitive information is included.
+> **Note:** All data, equipment names, handler identifiers, production lots, station names, event categories, and manufacturing identifiers have been fully anonymized for public portfolio use. No proprietary manufacturing or customer-sensitive information is included.
 
-Production-style semiconductor manufacturing analytics platform built using **Python**, **Pandas**, **NumPy**, and **Plotly**.
+Production-style semiconductor manufacturing analytics platform built with **Python**, **Pandas**, **NumPy**, and **Plotly**.
 
 ---
 
-# 🔎 Overview
+## 🔎 Overview
 
-This project is an end-to-end semiconductor manufacturing analytics solution that automates the integration of equipment event logs and production test records into engineering-ready OEE reports and manufacturing KPI dashboards.
+This project is an end-to-end manufacturing analytics solution that automates the integration of semiconductor equipment event logs and production test records into engineering-ready Overall Equipment Effectiveness (OEE) reports and interactive HTML dashboards.
 
-The solution demonstrates a complete local analytics pipeline built using modern data engineering principles, including:
+The solution demonstrates a production-oriented ETL workflow built using modern data engineering practices, transforming multiple manufacturing data sources into standardized analytics datasets for KPI reporting and operational performance monitoring.
+
+### Key Capabilities
 
 * Automated multi-source file ingestion
-* ETL transformation
-* Data validation and standardization
-* Production lot matching
+* CSV and TXT manufacturing data integration
+* ETL transformation and data validation
+* Production lot matching across independent systems
 * Manufacturing KPI calculation
-* Interactive HTML report generation
+* Interactive HTML dashboard generation
 * Automated CSV analytics exports
 
-The analytics workflow was designed around semiconductor final-test operations, supporting engineering investigations such as equipment utilization, production throughput, downtime analysis, yield monitoring, and Overall Equipment Effectiveness (OEE).
+The analytics workflow is designed around semiconductor final-test operations, enabling engineering investigations such as:
+
+* Overall Equipment Effectiveness (OEE)
+* Equipment utilization
+* Production throughput
+* Yield monitoring
+* Downtime analysis
+* Historical performance trending
 
 ---
 
-# 🚀 Interactive HTML Report Demo
+# 🚀 Interactive HTML Reports
 
-This project generates standalone interactive HTML reports that allow engineers and stakeholders to review manufacturing performance without requiring Python, databases, or BI software.
+The application generates standalone interactive HTML reports that can be opened directly in any modern web browser without requiring Python, databases, or BI software.
 
-The sample reports below are generated using fully anonymized manufacturing data.
+All reports shown below use fully anonymized manufacturing data.
 
-## 📊 Overall 24-Hour OEE Report
+---
 
-Daily manufacturing dashboard featuring:
+## 📊 Overall 24-Hour OEE Dashboard
 
-* OEE KPI gauges
+Provides a production-wide view of manufacturing performance.
+
+### Features
+
+* OEE KPI dashboard
 * Hourly production output
 * Equipment utilization
 * Output attainment
 * Yield monitoring
 * Downtime loss analysis
 
-**🌐 Launch Interactive Demo**
+**Demo**
 
-```
-demo/oee_overall_report.html
-```
+`demo/oee_overall_report.html`
 
 ---
 
-## 🔧 Per Handler OEE Report
+## 🔧 Per-Handler OEE Dashboard
 
-Equipment-level performance report including:
+Equipment-level dashboard for analyzing individual handler performance.
 
-* Handler KPI dashboard
+### Features
+
+* Handler KPI summary
 * Hourly production analysis
-* Equipment downtime
+* Equipment downtime monitoring
 * Downtime event distribution
 * Handler-specific loss analysis
 
-**🌐 Launch Interactive Demo**
+**Demo**
 
-```
-demo/oee_per_handler_report.html
-```
+`demo/oee_per_handler_report.html`
 
 ---
 
-## 📈 Rolling 7-Day OEE Report
+## 📈 Rolling 7-Day OEE Dashboard
 
-Historical manufacturing performance dashboard including:
+Historical manufacturing dashboard for monitoring KPI trends over time.
+
+### Features
 
 * Daily OEE trend
-* Output Attainment trend
 * Utilization trend
+* Output attainment trend
 * Yield trend
 * Top downtime events
-* Performance comparison across seven production days
+* Seven-day manufacturing performance comparison
 
-**🌐 Launch Interactive Demo**
+**Demo**
 
-```
-demo/oee_rolling_7day_report.html
-```
+`demo/oee_rolling_7day_report.html`
 
 ---
 
-# 🗂️ Data Sources
+# 🗂️ Manufacturing Data Sources
 
-The analytics platform integrates two independent manufacturing data sources.
+The ETL pipeline integrates two independent manufacturing systems into a unified analytics model.
 
-### Handler Event Logs
+## Handler Event Logs (CSV)
 
-* CSV event logs
+Equipment event logs containing:
+
 * Equipment alarms
 * Downtime events
-* Machine status
-* Lot movement information
+* Machine operating status
+* Lot movement records
+* Equipment activity history
 
 ---
 
-### Production Test Logs
+## Production Test Logs (TXT)
 
-* TXT production files
+Production test records containing:
+
 * Unit-level test results
 * PASS / FAIL status
 * Test time
-* Flow information
+* Test flow information
 * Site information
 
-The ETL pipeline combines both datasets into a unified manufacturing analytics model used for KPI calculation and reporting.
+---
+
+After ingestion, both datasets are standardized and matched using production lot information to produce engineering-ready manufacturing analytics.
 
 ---
 
 # ⭐ Core Features
 
-## ETL / Data Engineering
+## ETL & Data Engineering
 
-* Automated multi-source file ingestion
-* CSV and TXT parsing
+* Automated CSV/TXT ingestion
+* Multi-source ETL pipeline
 * Manufacturing data standardization
+* Timestamp normalization
 * Production lot matching
 * Configuration-driven architecture
 * Automated HTML report generation
-* CSV analytics exports
+* Automated CSV analytics exports
 
 ---
 
 ## Manufacturing Analytics
 
 * Overall Equipment Effectiveness (OEE)
-* Equipment Utilization
-* Output Attainment
+* Equipment utilization analysis
+* Output attainment monitoring
 * Yield monitoring
 * Downtime categorization
 * Handler performance analysis
 * Hourly production monitoring
-* Lot-level production analysis
+* Lot-level production analytics
 
 ---
 
-## Long-Term Manufacturing Trend Analytics
+## Historical KPI Monitoring
 
-Includes:
-
-* Rolling 7-Day OEE monitoring
-* Daily KPI trend analysis
+* Rolling 7-day OEE analysis
+* Daily KPI trend monitoring
 * Historical downtime comparison
-* Equipment performance trend monitoring
+* Equipment performance trending
 * Manufacturing productivity analysis
 
 ---
 
 # 🛠️ Technology Stack
 
-| Category | Technology |
-|-----------|------------|
-| Language | Python |
-| Data Processing | Pandas |
-| Numerical Computing | NumPy |
-| Visualization | Plotly |
-| Reporting | HTML |
-| Configuration | ConfigParser |
-| Data Transfer | FTP |
-| Scheduling | Windows Task Scheduler |
+| Category            | Technology             |
+| ------------------- | ---------------------- |
+| Language            | Python                 |
+| Data Processing     | Pandas                 |
+| Numerical Computing | NumPy                  |
+| Visualization       | Plotly                 |
+| Reporting           | HTML                   |
+| Configuration       | ConfigParser           |
+| Data Transfer       | FTP                    |
+| Scheduling          | Windows Task Scheduler |
 
 ---
 
-# 🏗️ Architecture & Technology Decisions
+# 🏗️ Architecture Decisions
 
-## Why Python
+## Why Python?
 
-Python was selected because it provides a complete ecosystem for ETL development, manufacturing analytics, numerical computation, and automated reporting within a lightweight deployment model.
+Python provides a complete ecosystem for ETL development, manufacturing analytics, numerical computation, and automated reporting while maintaining a lightweight deployment model suitable for engineering environments.
 
-Benefits include:
+### Benefits
 
-* Mature data processing ecosystem
-* Excellent ETL capabilities
-* Strong numerical computing libraries
-* Interactive visualization
-* Easy automation
+* Mature ETL ecosystem
+* Excellent data processing libraries
+* Powerful numerical computation
+* Interactive visualization support
+* Simple automation and scheduling
 * Minimal deployment requirements
 
 ---
 
-## Why Plotly HTML Reports
+## Why Interactive HTML Reports?
 
-Interactive Plotly HTML reports were selected because they allow engineers to explore manufacturing KPIs directly within a web browser without requiring dashboard servers or commercial BI platforms.
+Instead of relying on dashboard servers or commercial BI tools, this project generates standalone Plotly HTML reports that engineers can share and explore directly in a web browser.
 
-Benefits include:
+### Benefits
 
-* Standalone deployment
+* No software installation required
 * Interactive charts
 * Zooming and filtering
-* Browser-based sharing
-* Lightweight reporting
+* Easy report sharing
+* Lightweight deployment
 
 ---
 
 # 🔄 ETL Workflow
 
-Although implemented locally using Python rather than distributed data platforms, the solution follows a structured ETL workflow.
+The project follows a structured ETL workflow similar to production data engineering pipelines.
 
-```
-Handler CSV Logs
-        │
-        ▼
-Production TXT Files
-        │
-        ▼
-Data Cleaning
-        │
-        ▼
-Standardization
-        │
-        ▼
-Production Lot Matching
-        │
-        ▼
-Hourly Aggregation
-        │
-        ▼
-KPI Calculation
-        │
-        ▼
-OEE Analytics
-        │
-        ▼
-HTML Reports + CSV Exports
-```
+```mermaid
+flowchart TD
 
-*(Workflow diagram to be added.)*
+A[Handler CSV Logs]
+B[Production TXT Logs]
+
+A --> C[Data Cleaning]
+B --> C
+
+C --> D[Standardization]
+D --> E[Production Lot Matching]
+E --> F[Hourly Aggregation]
+F --> G[KPI Calculation]
+G --> H[OEE Analytics]
+
+H --> I[Interactive HTML Reports]
+H --> J[CSV Analytics Exports]
+```
 
 ---
 
-# 📈 OEE Calculation
+# 📈 Overall Equipment Effectiveness (OEE)
 
-The application calculates Overall Equipment Effectiveness using three manufacturing KPIs.
+The platform calculates Overall Equipment Effectiveness using three manufacturing KPIs.
+
+```text
+
+OEE = Utilization × Output Attainment × Yield
 
 ```
-OEE
 
-=
+## Utilization
 
-Utilization
+Measures productive operating time after accounting for equipment downtime.
 
-×
+---
 
-Output Attainment
+## Output Attainment
 
-×
+Measures actual production throughput relative to target manufacturing capacity.
 
-Yield
-```
+---
 
-### Utilization
-
-Represents productive operating time after accounting for equipment downtime.
-
-### Output Attainment
-
-Measures actual production throughput relative to calculated target capacity.
-
-### Yield
+## Yield
 
 Measures manufacturing quality using PASS versus total tested units.
 
+# 🐍 Production Python ETL Design
+
+Python serves as the primary ETL and analytics layer for integrating handler event logs with production test records.
+
+Because manufacturing data often contains inconsistent timestamps, duplicate records, malformed files, missing values, and unmatched production lots, the pipeline follows a defensive ETL design that prioritizes reliability and data quality.
+
 ---
 
-````md
-## 🐍 Production Python ETL Design
+## ETL Responsibilities
 
-The OEE pipeline uses Python as the main ETL and analytics layer for integrating handler event logs and production test records.
-
-The script is designed around defensive data engineering principles because manufacturing data can contain missing fields, inconsistent timestamps, duplicate records, malformed files, and unmatched production lots.
-
-Key Python ETL responsibilities include:
+The application automates the complete manufacturing analytics workflow, including:
 
 * CSV handler log ingestion
 * TXT production file parsing
 * Timestamp normalization
-* Numeric field cleaning
+* Numeric field validation
 * Event categorization
-* Lot matching between independent data sources
+* Production lot matching
 * Hourly production aggregation
 * OEE KPI calculation
-* Rolling 7-day trend generation
-* Automated HTML and CSV report export
+* Rolling 7-day KPI generation
+* Interactive HTML report generation
+* CSV analytics exports
 
 ---
 
-## Example: 24-Hour OEE Calculation Logic
+# 📊 Example: OEE KPI Calculation
+
+The function below calculates the three manufacturing KPIs required to produce Overall Equipment Effectiveness (OEE).
 
 ```python
 def calc_oee_metrics(output_pivot, efficiency_pct):
@@ -339,188 +340,51 @@ def calc_oee_metrics(output_pivot, efficiency_pct):
     }
 ```
 
-### Why This Matters
+---
 
-This calculation converts hourly production and equipment event data into manufacturing KPIs used by the 24-hour OEE report.
+## Engineering Discussion
 
-The function uses defensive checks to avoid invalid calculations when expected columns are missing or when production volume is zero. This prevents divide-by-zero errors and keeps the report stable even when a handler has incomplete data.
+Rather than calculating OEE directly from raw manufacturing logs, the application first transforms production and equipment events into hourly analytical datasets before calculating business KPIs.
 
-### Engineering Highlights
+This layered approach separates data ingestion, transformation, aggregation, and reporting, making the pipeline easier to validate, maintain, and extend.
 
-* Uses pandas aggregation outputs as analytical inputs.
-* Handles missing KPI columns defensively.
-* Prevents divide-by-zero issues.
-* Caps output attainment at 100%.
-* Produces business-ready OEE, utilization, output attainment, and yield metrics.
+The calculation function also follows defensive programming practices to ensure reports remain stable even when manufacturing data is incomplete.
 
 ---
 
-## Example: Rolling 7-Day OEE Logic
+## Defensive ETL Techniques
 
-```python
-def build_daily_metrics(p_prod, h_events, all_days):
-    rows = []
-    event_pivot_days = []
+The implementation includes several safeguards commonly used in production data engineering projects:
 
-    for report_day in all_days:
-        day_start = pd.Timestamp(report_day).normalize()
-        day_end = day_start + pd.Timedelta(days=1) - pd.Timedelta(seconds=1)
-
-        day_hours = pd.date_range(
-            day_start,
-            day_start + pd.Timedelta(hours=23),
-            freq="h"
-        )
-
-        p_day = p_prod[
-            (p_prod["test_datetime"] >= day_start) &
-            (p_prod["test_datetime"] <= day_end)
-        ].copy()
-
-        h_day = h_events[
-            (h_events["event_time"] >= day_start) &
-            (h_events["event_time"] <= day_end)
-        ].copy()
-
-        output_hourly = (
-            p_day
-            .dropna(subset=["test_hour"])
-            .groupby(["test_hour", "pf_status"])
-            .agg(units=("serial_no", "count"))
-            .reset_index()
-        )
-
-        output_pivot = (
-            output_hourly
-            .pivot_table(
-                index="test_hour",
-                columns="pf_status",
-                values="units",
-                aggfunc="sum",
-                fill_value=0
-            )
-            .reindex(day_hours, fill_value=0)
-        )
-
-        for col in ["PASS", "FAIL"]:
-            if col not in output_pivot.columns:
-                output_pivot[col] = 0
-
-        output_pivot["TOTAL"] = output_pivot["PASS"] + output_pivot["FAIL"]
-
-        event_hourly = (
-            h_day
-            .dropna(subset=["event_hour"])
-            .groupby(["event_hour", "event_category"])
-            .agg(duration_sec=("duration_sec", "sum"))
-            .reset_index()
-        )
-
-        event_pivot_sec = (
-            event_hourly
-            .pivot_table(
-                index="event_hour",
-                columns="event_category",
-                values="duration_sec",
-                aggfunc="sum",
-                fill_value=0
-            )
-            .reindex(day_hours, fill_value=0)
-        )
-
-        raw_total_event_sec = event_pivot_sec.sum(axis=1)
-
-        scale_factor = pd.Series(
-            np.where(
-                raw_total_event_sec > 3600,
-                3600 / raw_total_event_sec,
-                1
-            ),
-            index=event_pivot_sec.index
-        )
-
-        event_pivot_sec_scaled = event_pivot_sec.mul(scale_factor, axis=0)
-
-        total_event_sec = event_pivot_sec_scaled.sum(axis=1).clip(upper=3600)
-        uptime_sec = (3600 - total_event_sec).clip(lower=0)
-
-        has_output = output_pivot["TOTAL"] > 0
-
-        utilization_pct = (
-            uptime_sec / 3600 * 100
-        ).where(has_output, 0).mean()
-
-        total_units = output_pivot["TOTAL"].sum()
-        pass_units = output_pivot["PASS"].sum()
-
-        yield_pct = (
-            pass_units / total_units * 100
-            if total_units > 0
-            else 0
-        )
-
-        target_units = TARGET_UPH * len(day_hours)
-
-        output_attainment_pct = (
-            total_units / target_units * 100
-            if target_units > 0
-            else 0
-        )
-
-        output_attainment_pct = min(output_attainment_pct, 100)
-
-        oee_pct = (
-            utilization_pct / 100
-            * output_attainment_pct / 100
-            * yield_pct / 100
-            * 100
-        )
-
-        rows.append({
-            "report_day": report_day,
-            "OEE": oee_pct,
-            "Utilization": utilization_pct,
-            "Output Attainment": output_attainment_pct,
-            "Yield": yield_pct,
-        })
-
-        event_pivot_sec_scaled["report_day"] = report_day
-        event_pivot_days.append(event_pivot_sec_scaled)
-
-    metrics_daily = pd.DataFrame(rows).set_index("report_day")
-
-    event_pivot_sec_scaled_daily = (
-        pd.concat(event_pivot_days)
-        .groupby("report_day")
-        .sum()
-        .reindex(all_days, fill_value=0)
-    )
-
-    return metrics_daily, event_pivot_sec_scaled_daily
-```
-
-### Why This Matters
-
-The rolling 7-day report reuses the same 24-hour logic for each production day. This ensures that the latest day in the rolling report matches the standalone 24-hour handler report.
-
-The logic evaluates each day at hourly grain before rolling it into daily KPI values. This avoids mismatches caused by calculating OEE directly at daily grain.
-
-### Defensive ETL Pattern
-
-* Reindexes all 24 hourly buckets to prevent missing-hour gaps.
-* Adds missing `PASS` and `FAIL` columns when no units exist for a status.
-* Clips downtime at the maximum available hour to avoid impossible downtime percentages.
-* Uses `np.where()` to safely scale excessive downtime values.
-* Prevents divide-by-zero errors when output or target quantity is zero.
-* Preserves daily downtime summaries for rolling loss analysis.
+* Gracefully handles missing KPI columns
+* Prevents divide-by-zero calculations
+* Caps Output Attainment at 100%
+* Handles zero-production scenarios safely
+* Produces standardized KPI outputs for downstream reporting
 
 ---
 
-## ETL and Analytics Grain
+## Why Hourly Aggregation?
 
-The project separates 24-hour and rolling 7-day processing grains to avoid incorrect KPI calculations.
+Manufacturing performance changes continuously throughout a production day.
 
-### 24-Hour Report Grain
+Instead of calculating KPIs directly from daily totals, the ETL pipeline first aggregates production and equipment activity at **hourly grain**, allowing engineers to identify:
+
+* Production bottlenecks
+* Temporary downtime events
+* Equipment utilization losses
+* Throughput fluctuations
+* Hourly yield variation
+
+These hourly datasets are then summarized into daily manufacturing KPIs used by both the 24-hour and Rolling 7-Day reports.
+
+---
+
+# 🏗️ Analytics Processing Grain
+
+The application intentionally separates processing into two analytical grains.
+
+## 24-Hour Manufacturing Report
 
 ```text
 Handler
@@ -531,11 +395,13 @@ Handler
 Used for:
 
 * Hourly production output
-* Hourly downtime
-* 24-hour OEE
-* Per-handler daily report
+* Hourly downtime analysis
+* Daily OEE calculation
+* Handler-level reporting
 
-### Rolling 7-Day Report Grain
+---
+
+## Rolling 7-Day Manufacturing Report
 
 ```text
 Handler
@@ -546,117 +412,284 @@ Handler
 Used for:
 
 * Daily OEE trend
-* Daily utilization trend
-* Daily output attainment trend
-* Daily yield trend
-* Rolling downtime analysis
+* Utilization trend
+* Output attainment trend
+* Yield trend
+* Historical downtime analysis
 
-This design ensures that each rolling daily value is calculated from the same hourly logic used in the 24-hour report.
-
-````
-
+By calculating each production day independently before generating trend visualizations, the application ensures that every point in the rolling report is directly comparable with the standalone 24-hour report.
 
 ---
+
+# ⚙️ Production ETL Design Principles
+
+Although developed as a local Python application, the project follows several design patterns commonly found in production ETL pipelines.
+
+### Data Validation
+
+* Timestamp normalization
+* Missing value handling
+* Numeric field validation
+* Duplicate record protection
+
+### Data Transformation
+
+* Event categorization
+* Production lot matching
+* Hourly aggregation
+* KPI modeling
+
+### Reporting Layer
+
+* Interactive Plotly dashboards
+* Standalone HTML reports
+* Automated CSV exports
+* Configuration-driven execution
+
+---
+
+# 💡 Engineering Takeaways
+
+This project demonstrates how production manufacturing data from independent systems can be transformed into reliable engineering analytics through a structured ETL workflow.
+
+Key concepts demonstrated include:
+
+* Multi-source manufacturing data integration
+* Defensive ETL development
+* Time-series manufacturing analytics
+* KPI modeling
+* Automated reporting
+* Modular Python architecture
+* Production-oriented analytics design
+
+The overall architecture emphasizes maintainability, reproducibility, and engineering-focused reporting while remaining lightweight enough to run as a scheduled local analytics application.
 
 # 📊 Engineering Highlights
 
-The project demonstrates several production-oriented data engineering concepts.
+This project demonstrates production-oriented data engineering and manufacturing analytics concepts through a complete local ETL pipeline.
 
-### Data Engineering
+---
 
-* Multi-source ETL
-* Configuration-driven architecture
-* Defensive ETL design
-* Data validation
-* Automated reporting
+## 🛠️ Data Engineering
+
+The project showcases practical data engineering techniques commonly used in manufacturing analytics environments.
+
+### ETL & Data Integration
+
+* Multi-source ETL pipeline
+* CSV and TXT data ingestion
 * Manufacturing data integration
+* Production lot matching
+* Timestamp normalization
+* Configuration-driven processing
 
-### Manufacturing Analytics
+### Data Quality
+
+* Defensive ETL design
+* Missing value handling
+* Data validation
+* Duplicate record protection
+* Standardized KPI generation
+
+### Automation
+
+* Automated report generation
+* Scheduled execution
+* CSV analytics exports
+* Reproducible reporting workflow
+
+---
+
+## 📈 Manufacturing Analytics
+
+The reporting layer transforms raw manufacturing data into engineering-ready performance metrics.
+
+### Manufacturing KPIs
 
 * Overall Equipment Effectiveness (OEE)
-* Equipment utilization
-* Production throughput analysis
-* Downtime analysis
-* Rolling KPI monitoring
-* Yield analytics
+* Equipment Utilization
+* Output Attainment
+* Production Yield
+* Hourly Throughput
+* Downtime Loss Analysis
 
-### Software Engineering
+### Historical Analytics
+
+* Rolling 7-Day KPI monitoring
+* Daily manufacturing trends
+* Equipment performance comparison
+* Historical downtime analysis
+* Productivity monitoring
+
+---
+
+## 💻 Software Engineering
+
+The application is organized using a modular architecture to improve maintainability and support future enhancements.
+
+### Design Principles
 
 * Modular Python architecture
-* Reusable helper functions
 * Separation of concerns
-* Automated report generation
-* Configurable deployment
+* Reusable helper functions
+* Configuration-driven execution
+* Lightweight deployment model
 
 ---
 
-# 🖼️ Report Screenshots
+# 🖼️ Dashboard Screenshots
 
-The following screenshots demonstrate the analytical outputs generated by the ETL pipeline.
-
-## 📊 Overall OEE Dashboard
-
-*(Insert screenshot)*
+The following screenshots demonstrate the interactive dashboards generated by the ETL pipeline.
 
 ---
 
-## 🔧 Per Handler Dashboard
+## 📊 Overall 24-Hour OEE Dashboard
 
-*(Insert screenshot)*
+> *(Insert screenshot here)*
+
+Features demonstrated:
+
+* Executive KPI summary
+* Hourly production monitoring
+* Utilization tracking
+* Output attainment
+* Yield analysis
+* Downtime visualization
+
+---
+
+## 🔧 Per-Handler Dashboard
+
+> *(Insert screenshot here)*
+
+Features demonstrated:
+
+* Handler performance KPIs
+* Equipment downtime
+* Hourly throughput
+* Event distribution
+* Loss analysis
 
 ---
 
 ## 📈 Rolling 7-Day Dashboard
 
-*(Insert screenshot)*
+> *(Insert screenshot here)*
+
+Features demonstrated:
+
+* Daily OEE trend
+* Utilization trend
+* Output attainment trend
+* Yield trend
+* Historical downtime comparison
 
 ---
 
 # 🛣️ Project Roadmap
 
-## Current Features
+## ✅ Current Features
 
-* Automated CSV/TXT ingestion
-* Equipment event analytics
+* Automated CSV and TXT ingestion
+* Manufacturing event analytics
 * Production lot matching
-* OEE calculation
-* Rolling KPI analysis
-* HTML report generation
-* CSV export automation
+* OEE KPI calculation
+* Rolling 7-day trend analysis
+* Interactive HTML dashboards
+* Automated CSV exports
 
 ---
 
-# 🎯 Key Engineering Concepts Demonstrated
+## 🚀 Planned Enhancements
 
-### Data Engineering
+Future development will expand the analytics platform beyond equipment performance monitoring.
 
-* Multi-source ETL pipelines
+Planned improvements include:
+
+* SQL-based analytics layer
+* Manufacturing data warehouse integration
+* Historical production database support
+* Automated anomaly detection
+* Statistical process control (SPC) dashboards
+* Manufacturing trend forecasting
+* Expanded manufacturing KPI library
+* Interactive engineering filtering
+
+---
+
+# 📚 Key Concepts Demonstrated
+
+This repository demonstrates practical applications of data engineering, analytics engineering, and software engineering within a semiconductor manufacturing environment.
+
+| Data Engineering    | Analytics Engineering   | Software Engineering              |
+| ------------------- | ----------------------- | --------------------------------- |
+| Multi-source ETL    | OEE KPI Modeling        | Modular Python Design             |
+| Data Integration    | Manufacturing Analytics | Reusable Components               |
+| Defensive ETL       | Time-Series Analysis    | Configuration-Driven Architecture |
+| Data Validation     | KPI Trend Monitoring    | Separation of Concerns            |
+| Automated Reporting | Downtime Analytics      | Maintainable Codebase             |
+
+---
+
+# 📁 Repository Structure
+
+```text
+Semiconductor_OEE_Analytics/
+│
+├── config/              # Configuration files
+├── data/
+│   ├── handler_logs/    # CSV equipment event logs
+│   └── production/      # TXT production test logs
+│
+├── demo/                # Sample HTML reports
+├── reports/             # Generated reports
+├── screenshots/         # Dashboard screenshots
+├── src/
+│   ├── etl/
+│   ├── analytics/
+│   ├── reporting/
+│   └── utils/
+│
+├── README.md
+└── requirements.txt
+```
+
+---
+
+# 🎯 Learning Outcomes
+
+This project was developed to demonstrate practical experience in:
+
+* Building production-style ETL pipelines
+* Integrating multiple manufacturing data sources
+* Applying defensive data engineering practices
+* Designing engineering KPI models
+* Automating manufacturing analytics
+* Creating interactive reporting solutions using Python
+
+Although implemented as a local analytics application, the overall workflow reflects design patterns commonly found in enterprise data engineering solutions.
+
+---
+
+# 👤 Author
+
+This repository was developed as part of my data engineering portfolio to demonstrate practical experience in building production-oriented manufacturing analytics solutions.
+
+The project emphasizes:
+
+* Production ETL development
 * Manufacturing data integration
-* Defensive ETL design
-* Configuration-driven architecture
+* KPI modeling
 * Automated reporting
+* Data quality and validation
+* Modular Python architecture
 
-### Analytics Engineering
-
-* Manufacturing KPI modeling
-* OEE calculation
-* Time-series trend analysis
-* Equipment performance analytics
-* Downtime analytics
-
-### Software Engineering
-
-* Modular Python design
-* Reusable ETL components
-* Automated HTML reporting
-* Separation of concerns
-* Maintainable project architecture
+The implementation reflects the type of engineering workflows used to transform raw manufacturing data into actionable operational insights while maintaining a lightweight, maintainable, and reproducible analytics pipeline.
 
 ---
 
-## 👤 Author
+## ⭐ If you found this project interesting
 
-This repository was developed as a portfolio project demonstrating production-oriented data engineering techniques applied to semiconductor manufacturing analytics.
+If this repository was helpful or provided insight into manufacturing analytics and ETL design, consider giving it a ⭐.
 
-The implementation emphasizes practical ETL design, manufacturing KPI modeling, automated reporting, and equipment performance analytics using Python.
-````
+Feedback and suggestions are always welcome.
