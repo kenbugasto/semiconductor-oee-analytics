@@ -89,8 +89,6 @@ Equipment event logs containing:
 * Lot movement records
 * Equipment activity history
 
----
-
 ## Production Test Logs (TXT)
 
 Production test records containing:
@@ -100,8 +98,6 @@ Production test records containing:
 * Test time
 * Test flow information
 * Site information
-
----
 
 After ingestion, both datasets are standardized and matched using production lot information to produce engineering-ready manufacturing analytics.
 
