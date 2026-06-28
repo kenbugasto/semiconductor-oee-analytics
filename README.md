@@ -303,8 +303,6 @@ This repository demonstrates practical applications of data engineering, analyti
 
 ## 👤 Author
 
-## 👤 Author
-
 Developed as part of my Data Engineering portfolio to demonstrate practical ETL development, manufacturing analytics, and interactive reporting using Python, Pandas, NumPy, and Plotly.
 
 ---
