@@ -270,7 +270,7 @@ The platform calculates Overall Equipment Effectiveness using three manufacturin
 
 OEE = Utilization × Output Attainment × Yield
 
-```
+---
 
 ## Utilization
 
