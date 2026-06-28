@@ -14,12 +14,12 @@ The solution demonstrates a production-oriented ETL workflow built using modern 
 
 ### Key Capabilities
 
-• Multi-source CSV/TXT ingestion
-• Data validation and standardization
-• Production lot matching
-• Manufacturing KPI calculation
-• Interactive HTML dashboards
-• Automated CSV exports
+* Multi-source CSV/TXT ingestion
+* Data validation and standardization
+* Production lot matching
+* Manufacturing KPI calculation
+* Interactive HTML dashboards
+* Automated CSV exports
 
 The analytics workflow is designed around semiconductor final-test operations, enabling engineering investigations such as:
 
