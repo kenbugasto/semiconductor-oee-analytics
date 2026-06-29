@@ -283,10 +283,6 @@ Future development will expand the analytics platform beyond equipment performan
 
 Planned improvements include:
 
-* SQL-based analytics layer
-* Manufacturing data warehouse integration
-* Historical production database support
-* Automated anomaly detection
 * Statistical process control (SPC) dashboards
 * Manufacturing trend forecasting
 * Expanded manufacturing KPI library
