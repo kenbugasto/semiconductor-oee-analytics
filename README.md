@@ -70,6 +70,27 @@ Historical manufacturing dashboard for monitoring KPI trends over time.
 
 ---
 
+# 📈 Business Impact
+
+## Engineering Outcome - Operational Intelligence
+
+| Category | Previous Workflow | OEE Analytics Platform |
+|----------|-------------------|------------------------|
+| Equipment Downtime Analysis | Raw equipment event logs | Standardized downtime categories |
+| Root Cause Investigation | Manual log review | Automated event grouping and loss analysis |
+| Performance Monitoring | Daily production reports | Hourly OEE and equipment KPI dashboards |
+| Multi-Source Analysis | Separate CSV and TXT systems | Integrated production and equipment analytics |
+| Equipment Loss Visibility | Individual alarm codes | Percentage-based downtime visualization |
+| Engineering Investigation | Manual correlation | Production lot matching with unified reporting |
+
+---
+
+This project transforms thousands of low-level semiconductor equipment events into engineering-ready operational intelligence by integrating production and equipment datasets into a unified OEE analytics platform.
+
+Rather than requiring engineers to interpret hundreds of individual machine alarm codes, the platform automatically categorizes similar equipment events into standardized downtime groups and visualizes their contribution to hourly production losses. This enables faster identification of recurring manufacturing bottlenecks, improves root cause investigations, and supports data-driven equipment performance improvement.
+
+---
+
 # 🗂️ Manufacturing Data Sources
 
 The ETL pipeline integrates two independent manufacturing systems into a unified analytics model.
