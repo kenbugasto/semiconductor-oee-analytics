@@ -91,6 +91,50 @@ Rather than requiring engineers to interpret hundreds of individual machine alar
 
 ---
 
+
+## 🏗️ ETL Workflow - Medallion Architecture
+
+```mermaid
+flowchart LR
+
+A[Source Systems<br/>Handler CSV Logs<br/>Production TXT Logs]
+
+A --> B[Bronze Layer<br/>Raw File Ingestion<br/>Schema-on-read<br/>Minimal Validation]
+
+B --> C[Silver Layer<br/>Cleaned & Standardized Data<br/>Timestamp Normalization<br/>Event Categorization<br/>Lot Matching]
+
+C --> D[Gold Layer<br/>Analytics-Ready Datasets<br/>Hourly Aggregation<br/>KPI Calculation<br/>OEE Analytics]
+
+D --> E[Interactive HTML Reports]
+D --> F[CSV Analytics Exports]
+```
+
+---
+
+## 🧩 Analytical Dataset Design
+
+| Layer | Description |
+|--------|-------------|
+| Bronze | Raw CSV and TXT files from FTP |
+| Silver | Cleaned, standardized, matched manufacturing datasets |
+| Gold | Hourly KPI datasets powering OEE reports and CSV exports |
+
+---
+
+# 📈 Overall Equipment Effectiveness (OEE)
+
+The platform calculates Overall Equipment Effectiveness using three manufacturing KPIs.
+
+OEE = Utilization × Output Attainment × Yield
+
+* Utilization: Measures productive operating time after accounting for equipment downtime.
+
+* Output Attainment: Measures actual production throughput relative to target manufacturing capacity.
+
+* Yield: Measures manufacturing quality using PASS versus total tested units.
+
+---
+
 # 🗂️ Manufacturing Data Sources
 
 The ETL pipeline integrates two independent manufacturing systems into a unified analytics model.
@@ -160,49 +204,6 @@ Instead of relying on dashboard servers or commercial BI tools, this project gen
 * Interactive charts
 * Easy report sharing
 * Lightweight deployment
-
----
-
-## 🏗️ ETL Workflow - Medallion Architecture
-
-```mermaid
-flowchart LR
-
-A[Source Systems<br/>Handler CSV Logs<br/>Production TXT Logs]
-
-A --> B[Bronze Layer<br/>Raw File Ingestion<br/>Schema-on-read<br/>Minimal Validation]
-
-B --> C[Silver Layer<br/>Cleaned & Standardized Data<br/>Timestamp Normalization<br/>Event Categorization<br/>Lot Matching]
-
-C --> D[Gold Layer<br/>Analytics-Ready Datasets<br/>Hourly Aggregation<br/>KPI Calculation<br/>OEE Analytics]
-
-D --> E[Interactive HTML Reports]
-D --> F[CSV Analytics Exports]
-```
-
----
-
-## 🧩 Analytical Dataset Design
-
-| Layer | Description |
-|--------|-------------|
-| Bronze | Raw CSV and TXT files from FTP |
-| Silver | Cleaned, standardized, matched manufacturing datasets |
-| Gold | Hourly KPI datasets powering OEE reports and CSV exports |
-
----
-
-# 📈 Overall Equipment Effectiveness (OEE)
-
-The platform calculates Overall Equipment Effectiveness using three manufacturing KPIs.
-
-OEE = Utilization × Output Attainment × Yield
-
-* Utilization: Measures productive operating time after accounting for equipment downtime.
-
-* Output Attainment: Measures actual production throughput relative to target manufacturing capacity.
-
-* Yield: Measures manufacturing quality using PASS versus total tested units.
 
 ---
 
