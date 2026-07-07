@@ -83,14 +83,31 @@ Historical manufacturing dashboard for monitoring KPI trends over time.
 | Equipment Loss Visibility | Individual alarm codes | Percentage-based downtime visualization |
 | Engineering Investigation | Manual correlation | Production lot matching with unified reporting |
 
----
-
 This project transforms thousands of low-level semiconductor equipment events into engineering-ready operational intelligence by integrating production and equipment datasets into a unified OEE analytics platform.
 
 Rather than requiring engineers to interpret hundreds of individual machine alarm codes, the platform automatically categorizes similar equipment events into standardized downtime groups and visualizes their contribution to hourly production losses. This enables faster identification of recurring manufacturing bottlenecks, improves root cause investigations, and supports data-driven equipment performance improvement.
 
 ---
 
+# ⚙️ Automated Production Workflow
+
+The OEE analytics platform runs as a fully automated daily ETL pipeline using Windows Task Scheduler.
+
+**03:00 AM — Automated OEE Pipeline**
+
+- Triggered automatically by Windows Task Scheduler
+- Retrieves manufacturing data from FTP
+- Uses a configuration-driven (`config.ini`) architecture
+- Integrates handler event logs and production test records
+- Generates OEE analytical datasets
+- Exports interactive HTML dashboards and CSV reports
+- Produces execution and audit logs
+
+Execution logs and generated reports are reviewed daily to verify successful data ingestion and ensure report accuracy before distribution.
+
+---
+
+Daily loader logs and generated reports are reviewed to verify successful data ingestion and ensure report accuracy before distribution.
 
 ## 🏗️ ETL Workflow - Medallion Architecture
 
