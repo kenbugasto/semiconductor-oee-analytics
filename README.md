@@ -34,39 +34,42 @@ The analytics workflow is designed around semiconductor final-test operations, e
 
 # 🚀 Interactive Dashboard Demo
 
-## 📈 Rolling 7-Day OEE Dashboard
+## 📊 Executive 7-Day OEE Performance Dashboard
 
-Historical manufacturing dashboard for monitoring KPI trends over time.
+High-level dashboard providing a rolling 7-day view of manufacturing performance across all handlers, designed for trend monitoring and management review.
 
 ### Features
 
-* Daily OEE trend
-* Utilization trend
-* Output attainment trend
-* Yield trend
+* Rolling 7-day OEE trend
+* Rolling utilization trend
+* Rolling output attainment trend
+* Rolling yield trend
 * Top downtime events
 * Seven-day manufacturing performance comparison
 
-**🌐 Launch Interactive Dashboard Demo:**  
+| Dashboard | Description | Demo |
+|-----------|-------------|------|
+| OEE Rolling 7-Day Report | Executive dashboard with 7-day OEE, utilization, yield, output attainment, and downtime trends | 🚀 [Open](https://kenbugasto.github.io/semiconductor-yield-dashboard/demo/oee_rolling_7day_report.html) |
 
-- [oee_rolling_7day_report.html](https://kenbugasto.github.io/semiconductor-oee-analytics/demo/oee_rolling_7day_report.html)
+---
 
-## 🔧 Overall 24-Hour Per-Handler OEE Dashboard
+## 🔧 Operational 24-Hour Per-Handler OEE Dashboard
 
-Equipment-level dashboard for analyzing individual handler performance.
+Detailed equipment-level dashboards for analyzing the previous day's performance of individual handlers, enabling rapid root cause investigation and downtime analysis.
 
 ### Features
 
 * Handler KPI summary
-* Hourly production analysis for the whole 24 hours of the previous day
+* Previous-day hourly production analysis (24 hours)
 * Equipment downtime monitoring
 * Downtime event distribution
 * Handler-specific loss analysis
 
-**🌐 Launch Interactive Dashboard Demo:**  
+| Dashboard | Description | Demo |
+|-----------|-------------|------|
+| OEE Handler Report (HDLR02) | Previous-day 24-hour OEE analysis for Handler HDLR02 | 🚀 [Open](https://kenbugasto.github.io/semiconductor-yield-dashboard/demo/oee_per_handler_report_HDLR02.html) |
+| OEE Handler Report (HDLR07) | Previous-day 24-hour OEE analysis for Handler HDLR07 | 🚀 [Open](https://kenbugasto.github.io/semiconductor-yield-dashboard/demo/oee_per_handler_report_HDLR07.html) |
 
-- [oee_per_handler_report_HDLR02.html](https://kenbugasto.github.io/semiconductor-oee-analytics/demo/oee_per_handler_report_HDLR02.html)
-- [oee_per_handler_report_HDLR07.html](https://kenbugasto.github.io/semiconductor-oee-analytics/demo/oee_per_handler_report_HDLR07.html)
 ---
 
 # 📈 Business Impact
