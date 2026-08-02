@@ -49,7 +49,7 @@ High-level dashboard providing a rolling 7-day view of manufacturing performance
 
 | Dashboard | Description | Demo |
 |-----------|-------------|------|
-| OEE Rolling 7-Day Report | Executive dashboard with 7-day OEE, utilization, yield, output attainment, and downtime trends | 🚀 [Open](https://kenbugasto.github.io/semiconductor-yield-dashboard/demo/oee_rolling_7day_report.html) |
+| OEE Rolling 7-Day Report | Executive dashboard with 7-day OEE, utilization, yield, output attainment, and downtime trends | 🚀 [Open](https://kenbugasto.github.io/semiconductor-oee-analytics/demo/oee_rolling_7day_report.html) |
 
 ---
 
@@ -67,8 +67,8 @@ Detailed equipment-level dashboards for analyzing the previous day's performance
 
 | Dashboard | Description | Demo |
 |-----------|-------------|------|
-| OEE Handler Report (HDLR02) | Previous-day 24-hour OEE analysis for Handler HDLR02 | 🚀 [Open](https://kenbugasto.github.io/semiconductor-yield-dashboard/demo/oee_per_handler_report_HDLR02.html) |
-| OEE Handler Report (HDLR07) | Previous-day 24-hour OEE analysis for Handler HDLR07 | 🚀 [Open](https://kenbugasto.github.io/semiconductor-yield-dashboard/demo/oee_per_handler_report_HDLR07.html) |
+| OEE Handler Report (HDLR02) | Previous-day 24-hour OEE analysis for Handler HDLR02 | 🚀 [Open](https://kenbugasto.github.io/semiconductor-oee-analytics/demo/oee_per_handler_report_HDLR02.html) |
+| OEE Handler Report (HDLR07) | Previous-day 24-hour OEE analysis for Handler HDLR07 | 🚀 [Open](https://kenbugasto.github.io/semiconductor-oee-analytics/demo/oee_per_handler_report_HDLR07.html) |
 
 ---
 
