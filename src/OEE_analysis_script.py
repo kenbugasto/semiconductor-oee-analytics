@@ -25,62 +25,109 @@ import subprocess
 from datetime import datetime, timedelta
 
 # =====================================================
-# CONFIG - UPDATE THESE ONLY
+# CONFIG
 # =====================================================
 
-USER_ID = os.environ.get("USERNAME", "K02943")
+USER_ID = os.environ.get("USERNAME", "***")
 
 CONFIG_PATH = Path(__file__).with_name("oee_config.ini")
 
 config = configparser.ConfigParser()
-config.read(CONFIG_PATH, encoding="utf-8")
+
+loaded_config_files = config.read(
+    CONFIG_PATH,
+    encoding="utf-8"
+)
+
+if not loaded_config_files:
+    raise FileNotFoundError(
+        f"Configuration file not found: {CONFIG_PATH}"
+    )
+
 
 def cfg_path(section, key):
     value = config.get(section, key)
     value = value.replace("{USER_ID}", USER_ID)
     return Path(value)
 
+
 PLOT_BG = "#F2F2F2"
 
-HANDLER_CSV_FOLDER = cfg_path("PATHS", "handler_csv_folder")
-TXT_FOLDER = cfg_path("PATHS", "txt_folder")
-OUT_DIR = cfg_path("PATHS", "out_dir")
+ANMYZ_DARK_SLATE = "#34495E"
+ANMYZ_YELLOW = "#FEDF58"
+ANMYZ_LIGHT_GREEN = "#8BCF7A"
+ANMYZ_LIGHT_BLUE = "#7DB7E8"
+
+# =====================================================
+# WINDOWS / EMOJI FONT SUPPORT
+# =====================================================
+
+PLOT_FONT_FAMILY = (
+    "'Segoe UI Emoji', 'Segoe UI Symbol', "
+    "'Segoe UI', Arial, sans-serif"
+)
+
+HTML_FONT_FAMILY = (
+    "'Segoe UI Emoji', 'Segoe UI Symbol', "
+    "'Segoe UI', Arial, sans-serif"
+)
+
+EMOJI_WRENCH = "\U0001F527"           # 🔧
+EMOJI_CHART = "\U0001F4CA"            # 📊
+EMOJI_TREND = "\U0001F4C8"            # 📈
+EMOJI_LOSS = "\U0001F4C9"             # 📉
+EMOJI_CALENDAR = "\U0001F4C5"         # 📅
+EMOJI_CLOCK = "\u23F1\uFE0F"          # ⏱️
+EMOJI_TARGET = "\U0001F3AF"           # 🎯
+EMOJI_FAIL = "\u274C"                  # ❌
+EMOJI_RECYCLE = "\u267B\uFE0F"        # ♻️
+EMOJI_STOP = "\U0001F6D1"             # 🛑
+EMOJI_TOOLS = "\U0001F6E0\uFE0F"      # 🛠️
+EMOJI_RED = "\U0001F534"               # 🔴
+EMOJI_YELLOW = "\U0001F7E1"            # 🟡
+EMOJI_GREEN = "\U0001F7E2"             # 🟢
+EMOJI_WHITE = "\u26AA"                 # ⚪
+
+# =====================================================
+# LOCAL PORTFOLIO DATASET PATHS
+# =====================================================
+
+BASE_DIR = Path(
+    f"D:/ANYMZ/{USER_ID}/SIP_OEE/SIP_OEE_Analytics"
+)
+
+HANDLER_CSV_FOLDER = BASE_DIR / "handler_csv"
+TXT_FOLDER = BASE_DIR / "oee_txt_raw_anonymized"
+OUT_DIR = BASE_DIR / "oee_output"
 
 TARGET_OEE = config.getfloat("OEE", "target_oee")
-MAX_TEST_SITE_QTY = config.getint("OEE", "max_test_site_qty")
+MAX_TEST_SITE_QTY = config.getint(
+    "OEE",
+    "max_test_site_qty"
+)
 
 IDEAL_YIELD = config.getfloat("OEE", "ideal_yield")
-IDEAL_TEST_TIME = config.getfloat("OEE", "ideal_test_time")
-IDEAL_INDEX_TIME = config.getfloat("OEE", "ideal_index_time")
+IDEAL_TEST_TIME = config.getfloat(
+    "OEE",
+    "ideal_test_time"
+)
+IDEAL_INDEX_TIME = config.getfloat(
+    "OEE",
+    "ideal_index_time"
+)
 
-USE_FTP_DOWNLOAD = config.getboolean("RUN", "use_ftp_download", fallback=False)
+# Local existing dataset only.
+USE_FTP_DOWNLOAD = False
 
-if USE_FTP_DOWNLOAD:
-    HANDLER_FTP_HOST = config.get("HANDLER_FTP", "host")
-    HANDLER_FTP_USER = config.get("HANDLER_FTP", "user")
-    HANDLER_FTP_PASSWORD = config.get("HANDLER_FTP", "password")
-    HANDLER_FTP_ROOT = config.get("HANDLER_FTP", "root")
+HANDLER_FOLDERS = []
 
-    HANDLER_FOLDERS = [
-        x.strip()
-        for x in config.get("HANDLER_FTP", "folders").split(",")
-        if x.strip()
-    ]
+FTP_SCRIPT_PATH = (
+    BASE_DIR / "temp" / "oee_ftp_script.txt"
+)
 
-    TXT_FTP_HOST = config.get("TXT_FTP", "host")
-    TXT_FTP_USER = config.get("TXT_FTP", "user")
-    TXT_FTP_PASSWORD = config.get("TXT_FTP", "password")
-    TXT_FTP_CUST_CODE = config.get("TXT_FTP", "cust_code")
-    TXT_FTP_YR_CODE = config.getint("TXT_FTP", "yr_code")
-else:
-    HANDLER_FOLDERS = []
-
-FTP_SCRIPT_PATH = Path(f"D:/ASEKH/{USER_ID}/oee_ftp_script.txt")
-FTP_BATCH_PATH = Path(f"D:/ASEKH/{USER_ID}/oee_run_ftp.bat")
-
-REPORT_DATE = pd.Timestamp(config.get("RUN", "report_date")).normalize()
-ROLLING_START_DATE = pd.Timestamp(config.get("RUN", "rolling_start_date")).normalize()
-ROLLING_END_DATE = pd.Timestamp(config.get("RUN", "rolling_end_date")).normalize()
+FTP_BATCH_PATH = (
+    BASE_DIR / "temp" / "oee_run_ftp.bat"
+)
 
 # =====================================================
 # COMMON HELPERS
@@ -141,6 +188,21 @@ def safe_filename(value):
     return re.sub(r"[^A-Za-z0-9_-]+", "_", str(value)).strip("_")
 
 
+
+def apply_plotly_font(fig):
+    """Apply Windows-compatible normal-text and emoji font fallbacks."""
+    fig.update_layout(
+        font=dict(
+            family=PLOT_FONT_FAMILY,
+            color="#222222",
+        ),
+        hoverlabel=dict(
+            font_family=PLOT_FONT_FAMILY,
+        ),
+    )
+    return fig
+
+
 def get_clean_handler(handler_name):
 
     value = str(handler_name).strip().upper()
@@ -158,7 +220,75 @@ def extract_date_from_filename(filename):
         return pd.NaT
     return pd.to_datetime(m.group(1), format="%Y%m%d", errors="coerce")
 
+def detect_available_report_window(handler_csv_folder: Path):
+    """
+    Detects the latest available handler CSV date and creates
+    a rolling seven-day reporting window.
 
+    Expected filename format:
+        MessageLog_20260627.csv
+    """
+
+    if not handler_csv_folder.exists():
+        raise FileNotFoundError(
+            f"Handler CSV folder does not exist: {handler_csv_folder}"
+        )
+
+    csv_files = sorted(
+        handler_csv_folder.rglob("MessageLog_*.csv")
+    )
+
+    if not csv_files:
+        raise FileNotFoundError(
+            f"No MessageLog_YYYYMMDD.csv files found in: "
+            f"{handler_csv_folder}"
+        )
+
+    available_dates = []
+
+    for csv_path in csv_files:
+        file_date = extract_date_from_filename(csv_path.name)
+
+        if pd.notna(file_date):
+            available_dates.append(pd.Timestamp(file_date).normalize())
+
+    if not available_dates:
+        raise ValueError(
+            "Handler CSV files were found, but no valid YYYYMMDD "
+            "date could be extracted from their filenames."
+        )
+
+    available_dates = sorted(set(available_dates))
+
+    report_date = available_dates[-1]
+    rolling_end_date = report_date
+    rolling_start_date = report_date - pd.Timedelta(days=6)
+
+    print("\nAvailable handler CSV date range:")
+    print("Earliest CSV date :", available_dates[0].date())
+    print("Latest CSV date   :", available_dates[-1].date())
+    print("CSV dates found   :", len(available_dates))
+
+    expected_dates = set(
+        pd.date_range(
+            rolling_start_date,
+            rolling_end_date,
+            freq="D"
+        )
+    )
+
+    missing_dates = sorted(expected_dates - set(available_dates))
+
+    if missing_dates:
+        print("\nWARNING: Missing handler CSV dates inside rolling window:")
+
+        for missing_date in missing_dates:
+            print(" -", missing_date.date())
+    else:
+        print("All seven handler CSV dates are available.")
+
+    return report_date, rolling_start_date, rolling_end_date
+    
 def download_handler_csv_from_ftp(target_date, local_csv_root):
     target_date = pd.Timestamp(target_date)
 
@@ -338,6 +468,18 @@ def download_txt_files_from_ftp(start_date, end_date, local_txt_folder):
 
     return new_files
 
+def anonymize_lot_code(value):
+    """
+    Converts anonymized lot family codes consistently.
+
+    value = "" if pd.isna(value) else str(value).strip().upper()
+
+    return re.sub(
+        r"^(\d{2})UG",
+        r"\1XU",
+        value
+    )
+
 # =====================================================
 # HANDLER CSV LOADER
 # =====================================================
@@ -444,6 +586,8 @@ def load_handler_csv(path):
     for col in text_cols:
         df[col] = df[col].fillna("").astype(str).str.strip()
 
+    df["LotInfo"] = df["LotInfo"].apply(anonymize_lot_code)
+
     df["handler_clean"] = df["HandlerID"].apply(get_clean_handler)
     df["event_category"] = df.apply(categorize_handler_event, axis=1)
 
@@ -528,11 +672,6 @@ def parse_txt_2d_list(path):
     """
     Parser for USI/SIP TXT files with structure:
 
-    Schedule No. : 18UG73T246
-    Handler Name : 1100-KDH02
-    Start Time   : 2026-05-23 20:25:46
-    End Time     : 2026-05-23 21:56:46
-
     ***** 2D List *****
     Flow  2D NO  TEST_ID SITE T.T HB SB Bin DESCRIPTION P/F DateTime MAC Address
      FT   serial+handler S5B0 236 1 11111111 Pass PASS 2026:05:23:20:32:24
@@ -612,7 +751,6 @@ def parse_txt_2d_list(path):
             break
 
         # Example row:
-        # FT 4Q9...1100-KDH02 S5B0 236 1 11111111 Pass PASS 2026:05:23:20:32:24
         m = re.match(
             r"^\s*"
             r"(?P<flow>\S+)\s+"
@@ -683,35 +821,96 @@ def parse_txt_2d_list(path):
 def load_all_txt_files(txt_folder):
 
     if not txt_folder.exists():
-        raise FileNotFoundError(f"TXT_FOLDER does not exist: {txt_folder}")
+        raise FileNotFoundError(
+            f"TXT_FOLDER does not exist: {txt_folder}"
+        )
+
+    allowed_station_tokens = ["STN1", "STN2", "STN3"]
 
     txt_files = sorted({
         p.resolve()
         for ext in ["*.txt", "*.log"]
         for p in txt_folder.rglob(ext)
-        if any(stn in p.name for stn in ["STN1", "STN2", "STN3"])
+        if any(
+            station_token.upper() in p.name.upper()
+            for station_token in allowed_station_tokens
+        )
     })
 
     if not txt_files:
-        raise FileNotFoundError(f"No TXT/LOG files found in: {txt_folder}")
+        all_candidate_files = sorted({
+            p.resolve()
+            for ext in ["*.txt", "*.log"]
+            for p in txt_folder.rglob(ext)
+        })
+
+        print(
+            f"TXT/LOG candidates without station filtering: "
+            f"{len(all_candidate_files)}"
+        )
+
+        print("First candidate filenames:")
+
+        for candidate in all_candidate_files[:20]:
+            print(" -", candidate.name)
+
+        raise FileNotFoundError(
+            "No TXT/LOG files containing STN1, STN2, or STN3 "
+            f"were found in: {txt_folder}"
+        )
+
+    print(f"\nAnonymized TXT/LOG files discovered: {len(txt_files)}")
 
     prod_parts = []
     empty_files = []
 
-    for p in txt_files:
-        temp = parse_txt_2d_list(p)
-        if not temp.empty:
-            prod_parts.append(temp)
-        else:
-            empty_files.append(p.name)
+    for file_number, txt_path in enumerate(txt_files, start=1):
+        try:
+            temp = parse_txt_2d_list(txt_path)
+
+            if not temp.empty:
+                prod_parts.append(temp)
+            else:
+                empty_files.append(txt_path.name)
+
+        except Exception as exc:
+            print(
+                f"WARNING: Failed to parse "
+                f"{txt_path.name}: {exc}"
+            )
+            empty_files.append(txt_path.name)
+
+        if file_number % 100 == 0:
+            print(
+                f"Parsed {file_number:,} of "
+                f"{len(txt_files):,} TXT/LOG files..."
+            )
+
+    if empty_files:
+        print(
+            f"TXT/LOG files with no parsed production rows: "
+            f"{len(empty_files)}"
+        )
+
+        for filename in empty_files[:20]:
+            print(" -", filename)
 
     if not prod_parts:
         raise ValueError(
-            "No production TXT rows parsed. Check TXT layout or parser. "
+            "No production TXT rows parsed. Check TXT layout, "
+            "file encoding, or parser regular expression. "
             f"Files scanned: {len(txt_files)}"
         )
 
-    prod_raw = pd.concat(prod_parts, ignore_index=True)
+    prod_raw = pd.concat(
+        prod_parts,
+        ignore_index=True
+    )
+
+    print(
+        f"Production rows parsed before standardization: "
+        f"{len(prod_raw):,}"
+    )
 
     return prod_raw
 
@@ -768,7 +967,15 @@ def standardize_prod_data(prod_raw):
     if missing_prod_cols:
         raise ValueError(f"Production parsed data missing columns: {missing_prod_cols}")
 
-    prod_df["schedule_no"] = prod_df["schedule_no"].fillna("").astype(str).str.strip()
+    prod_df["schedule_no"] = (
+        prod_df["schedule_no"]
+        .fillna("")
+        .astype(str)
+        .str.strip()
+        .str.upper()
+        .apply(anonymize_lot_code)
+    )
+
     prod_df["lot_key"] = prod_df["schedule_no"]
     prod_df["serial_no"] = prod_df["serial_no"].fillna("").astype(str).str.strip()
     prod_df["flow_group"] = prod_df["flow"].fillna("").astype(str).str.upper().str.strip()
@@ -1376,10 +1583,10 @@ def build_oee_visual_reports(prod_matched, handler_matched, out_dir, report_day_
             height=260,
             margin=dict(l=30, r=30, t=55, b=20),
             paper_bgcolor=PLOT_BG,
-            font=dict(family="Arial", color="#222222"),
+            font=dict(family=PLOT_FONT_FAMILY, color="#222222"),
         )
 
-        return fig
+        return apply_plotly_font(fig)
 
     def make_output_fig(
         output_pivot,
@@ -1398,7 +1605,11 @@ def build_oee_visual_reports(prod_matched, handler_matched, out_dir, report_day_
                 textposition="inside",
                 textfont=dict(size=11),
                 insidetextfont=dict(size=11),
-                hovertemplate="Hour: %{x}<br>PASS: %{y}<extra></extra>",
+                hovertemplate=(
+                    f"<b>{EMOJI_CLOCK} Hour:</b> %{{x|%H:%M}}<br>"
+                    f"<b>{EMOJI_CHART} PASS:</b> %{{y}}<br>"
+                    "<extra></extra>"
+                ),
             )
         )
 
@@ -1414,8 +1625,9 @@ def build_oee_visual_reports(prod_matched, handler_matched, out_dir, report_day_
                 textfont=dict(size=11, color="#222222"),
                 cliponaxis=False,
                 hovertemplate=(
-                    "<b>Hour:</b> %{x|%H:%M}<br>"
-                    "<b>FAIL:</b> %{y}<extra></extra>"
+                    f"<b>{EMOJI_CLOCK} Hour:</b> %{{x|%H:%M}}<br>"
+                    f"<b>{EMOJI_FAIL} FAIL:</b> %{{y}}<br>"
+                    "<extra></extra>"
                 ),
             )
         )
@@ -1439,8 +1651,8 @@ def build_oee_visual_reports(prod_matched, handler_matched, out_dir, report_day_
                         dash="dash",
                     ),
                     hovertemplate=(
-                        "<b>Hour:</b> %{x|%H:%M}<br>"
-                        "<b>Target UPH:</b> %{y:.1f}<br>"
+                        f"<b>{EMOJI_CLOCK} Hour:</b> %{{x|%H:%M}}<br>"
+                        f"<b>{EMOJI_TARGET} Target UPH:</b> %{{y:.1f}}<br>"
                         "<extra></extra>"
                     ),
                 )
@@ -1458,7 +1670,7 @@ def build_oee_visual_reports(prod_matched, handler_matched, out_dir, report_day_
             hoverlabel=dict(
                 bgcolor="white",
                 font_size=12,
-                font_family="Arial",
+                font_family=PLOT_FONT_FAMILY,
                 font_color="#222222",
                 bordercolor="#BDBDBD",
             ),
@@ -1476,7 +1688,7 @@ def build_oee_visual_reports(prod_matched, handler_matched, out_dir, report_day_
             margin=dict(l=70, r=30, t=105, b=35),
             paper_bgcolor=PLOT_BG,
             plot_bgcolor=PLOT_BG,
-            font=dict(family="Arial", color="#222222"),
+            font=dict(family=PLOT_FONT_FAMILY, color="#222222"),
         )
 
         fig.update_yaxes(title_text="Units", gridcolor="#E5E5E5")
@@ -1493,34 +1705,53 @@ def build_oee_visual_reports(prod_matched, handler_matched, out_dir, report_day_
             gridcolor="#E5E5E5",
         )
 
-        return fig
+        return apply_plotly_font(fig)
 
-    def make_efficiency_fig(efficiency_pct, all_hours, hour_lot_map=None):
+    def make_efficiency_fig(
+        efficiency_pct,
+        all_hours,
+        hour_lot_map=None
+    ):
         fig = go.Figure()
 
         for col in efficiency_pct.columns:
+
+            # ----------------------------------------------
+            # Bar color and hover icon
+            # ----------------------------------------------
             if col == "UP_TIME":
                 color = UPTIME_COLOR
+                hover_icon = EMOJI_GREEN
+
             elif col == "RETEST_TIME":
                 color = RETEST_TIME_COLOR
+                hover_icon = EMOJI_RECYCLE
+
             else:
                 color = get_event_color(col)
+                hover_icon = EMOJI_STOP
 
+            # ----------------------------------------------
+            # Display text only for productive uptime
+            # ----------------------------------------------
             if col == "UP_TIME":
-                bar_text = efficiency_pct[col].round(1).astype(str) + "%"
+                bar_text = (
+                    efficiency_pct[col]
+                    .round(1)
+                    .astype(str)
+                    + "%"
+                )
                 text_position = "inside"
-                text_font = dict(size=10, color="#222222")
+                text_font = dict(
+                    family=PLOT_FONT_FAMILY,
+                    size=10,
+                    color="#222222",
+                )
+
             else:
                 bar_text = None
                 text_position = None
                 text_font = None
-
-            if col == "UP_TIME":
-                hover_icon = "🟢"
-            elif col == "RETEST_TIME":
-                hover_icon = "♻️"
-            else:
-                hover_icon = "🛑"
 
             fig.add_trace(
                 go.Bar(
@@ -1535,7 +1766,7 @@ def build_oee_visual_reports(prod_matched, handler_matched, out_dir, report_day_
                     textangle=0,
                     constraintext="none",
                     hovertemplate=(
-                        "<b>⏱️ Hour:</b> %{x|%H:%M}<br>"
+                        f"<b>{EMOJI_CLOCK} Hour:</b> %{{x|%H:%M}}<br>"
                         f"<b>{hover_icon} {col}:</b> %{{y:.2f}}%"
                         "<extra></extra>"
                     ),
@@ -1546,7 +1777,7 @@ def build_oee_visual_reports(prod_matched, handler_matched, out_dir, report_day_
             title=dict(
                 text="<b>Efficiency % per hour</b>",
                 x=0.01,
-                xanchor="left"
+                xanchor="left",
             ),
             height=540,
             barmode="stack",
@@ -1554,11 +1785,16 @@ def build_oee_visual_reports(prod_matched, handler_matched, out_dir, report_day_
             hoverlabel=dict(
                 bgcolor="white",
                 font_size=12,
-                font_family="Arial",
+                font_family=PLOT_FONT_FAMILY,
                 font_color="#222222",
                 bordercolor="#BDBDBD",
             ),
-            margin=dict(l=70, r=30, t=60, b=230),
+            margin=dict(
+                l=70,
+                r=30,
+                t=60,
+                b=230,
+            ),
             legend=dict(
                 orientation="h",
                 yanchor="top",
@@ -1566,25 +1802,42 @@ def build_oee_visual_reports(prod_matched, handler_matched, out_dir, report_day_
                 xanchor="left",
                 x=0,
                 title_text="",
-                font=dict(size=10)
+                font=dict(
+                    family=PLOT_FONT_FAMILY,
+                    size=10,
+                ),
             ),
             paper_bgcolor=PLOT_BG,
             plot_bgcolor=PLOT_BG,
-            font=dict(family="Arial", color="#222222"),
+            font=dict(
+                family=PLOT_FONT_FAMILY,
+                color="#222222",
+            ),
         )
 
-        fig.update_yaxes(title_text="% of hour", range=[0, 100], gridcolor="#E5E5E5")
+        fig.update_yaxes(
+            title_text="% of hour",
+            range=[0, 100],
+            gridcolor="#E5E5E5",
+        )
 
         fig.update_xaxes(
             title_text="",
             tickmode="array",
             tickvals=all_hours,
             ticktext=[
-                f"<b>{pd.Timestamp(h).strftime('%m/%d')}</b><br>{pd.Timestamp(h).strftime('%H:%M')}"
-                for h in all_hours
+                (
+                    f"<b>{pd.Timestamp(hour).strftime('%m/%d')}</b><br>"
+                    f"{pd.Timestamp(hour).strftime('%H:%M')}"
+                )
+                for hour in all_hours
             ],
             tickangle=0,
-            tickfont=dict(size=9, color="black"),
+            tickfont=dict(
+                family=PLOT_FONT_FAMILY,
+                size=9,
+                color="black",
+            ),
             automargin=True,
             gridcolor="#E5E5E5",
         )
@@ -1598,7 +1851,11 @@ def build_oee_visual_reports(prod_matched, handler_matched, out_dir, report_day_
             showarrow=False,
             xanchor="right",
             yanchor="top",
-            font=dict(size=9, color="black"),
+            font=dict(
+                family=PLOT_FONT_FAMILY,
+                size=9,
+                color="black",
+            ),
         )
 
         fig.add_annotation(
@@ -1610,7 +1867,11 @@ def build_oee_visual_reports(prod_matched, handler_matched, out_dir, report_day_
             showarrow=False,
             xanchor="right",
             yanchor="top",
-            font=dict(size=9, color="black"),
+            font=dict(
+                family=PLOT_FONT_FAMILY,
+                size=9,
+                color="black",
+            ),
         )
 
         fig.add_annotation(
@@ -1622,12 +1883,17 @@ def build_oee_visual_reports(prod_matched, handler_matched, out_dir, report_day_
             showarrow=False,
             xanchor="right",
             yanchor="top",
-            font=dict(size=9, color="black"),
+            font=dict(
+                family=PLOT_FONT_FAMILY,
+                size=9,
+                color="black",
+            ),
         )
 
         if hour_lot_map is not None:
             for hour in all_hours:
                 lot_no = hour_lot_map.get(hour, "")
+
                 if not lot_no:
                     continue
 
@@ -1641,10 +1907,14 @@ def build_oee_visual_reports(prod_matched, handler_matched, out_dir, report_day_
                     textangle=-45,
                     xanchor="center",
                     yanchor="top",
-                    font=dict(size=9, color="black"),
+                    font=dict(
+                        family=PLOT_FONT_FAMILY,
+                        size=9,
+                        color="black",
+                    ),
                 )
 
-        return fig
+        return apply_plotly_font(fig)
 
     def make_event_summary_fig(event_pivot_sec_scaled, total_available_sec, top_n=None):
         event_summary = (
@@ -1676,8 +1946,8 @@ def build_oee_visual_reports(prod_matched, handler_matched, out_dir, report_day_
                 textposition="outside",
                 textfont=dict(size=9),
                 hovertemplate=(
-                    "<b>🛠️ Event:</b> %{y}<br>"
-                    "<b>📉 Loss:</b> %{x:.2f}% of available hours"
+                    f"<b>{EMOJI_TOOLS} Event:</b> %{{y}}<br>"
+                    f"<b>{EMOJI_LOSS} Loss:</b> %{{x:.2f}}% of available hours"
                     "<extra></extra>"
                 ),
                 showlegend=False,
@@ -1695,11 +1965,11 @@ def build_oee_visual_reports(prod_matched, handler_matched, out_dir, report_day_
             margin=dict(l=260, r=80, t=60, b=50),
             paper_bgcolor=PLOT_BG,
             plot_bgcolor=PLOT_BG,
-            font=dict(family="Arial", color="#222222"),
+            font=dict(family=PLOT_FONT_FAMILY, color="#222222"),
             hoverlabel=dict(
                 bgcolor="white",
                 font_size=12,
-                font_family="Arial",
+                font_family=PLOT_FONT_FAMILY,
                 font_color="#222222",
                 bordercolor="#BDBDBD",
             ),
@@ -1708,7 +1978,7 @@ def build_oee_visual_reports(prod_matched, handler_matched, out_dir, report_day_
         fig.update_xaxes(title_text="% of available hours", gridcolor="#E5E5E5")
         fig.update_yaxes(title_text="")
 
-        return fig
+        return apply_plotly_font(fig)
 
     def make_handler_downtime_table(handler_df):
         summary = (
@@ -1746,7 +2016,11 @@ def build_oee_visual_reports(prod_matched, handler_matched, out_dir, report_day_
                         ],
                         fill_color="#F2F2F2",
                         align="left",
-                        font=dict(color="#222222", size=12),
+                        font=dict(
+                            family=PLOT_FONT_FAMILY,
+                            color="#222222",
+                            size=12,
+                        ),
                         line_color="#BDBDBD",
                         line_width=1,
                     ),
@@ -1759,8 +2033,12 @@ def build_oee_visual_reports(prod_matched, handler_matched, out_dir, report_day_
                         ],
                         fill_color="#FFFFFF",
                         align="left",
-                        font=dict(color="#222222", size=11),
-                        height=26,                     
+                        font=dict(
+                            family=PLOT_FONT_FAMILY,
+                            color="#222222",
+                            size=11,
+                        ),
+                        height=26,
                         line_color="#D0D0D0",
                         line_width=1,
                     )
@@ -1777,10 +2055,10 @@ def build_oee_visual_reports(prod_matched, handler_matched, out_dir, report_day_
             height=340,
             margin=dict(l=20, r=20, t=60, b=20),
             paper_bgcolor=PLOT_BG,
-            font=dict(family="Arial", color="#222222"),
+            font=dict(family=PLOT_FONT_FAMILY, color="#222222"),
         )
 
-        return fig
+        return apply_plotly_font(fig)
 
     def make_event_downtime_table(handler_df):
         summary = (
@@ -1831,7 +2109,11 @@ def build_oee_visual_reports(prod_matched, handler_matched, out_dir, report_day_
                         ],
                         fill_color="#F2F2F2",
                         align="left",
-                        font=dict(color="#222222", size=12),
+                        font=dict(
+                            family=PLOT_FONT_FAMILY,
+                            color="#222222",
+                            size=12,
+                        ),
                         line_color="#BDBDBD",
                         line_width=1,
                     ),
@@ -1845,6 +2127,7 @@ def build_oee_visual_reports(prod_matched, handler_matched, out_dir, report_day_
                         fill_color="#FFFFFF",
                         align="left",
                         font=dict(
+                            family=PLOT_FONT_FAMILY,
                             color=[
                                 "black",
                                 "black",
@@ -1870,20 +2153,21 @@ def build_oee_visual_reports(prod_matched, handler_matched, out_dir, report_day_
             height=360,
             margin=dict(l=20, r=30, t=60, b=20),
             paper_bgcolor=PLOT_BG,
-            font=dict(family="Arial", color="#222222"),
+            font=dict(family=PLOT_FONT_FAMILY, color="#222222"),
         )
 
-        return fig
+        return apply_plotly_font(fig)
 
     def html_header(title, subtitle):
         return f"""
         <html>
         <head>
             <meta charset="utf-8">
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
             <title>{title}</title>
             <style>
                 body {{
-                    font-family: Arial, sans-serif;
+                    font-family: {HTML_FONT_FAMILY};
                     margin: 20px;
                     background: #FAFAFA;
                     color: #222222;
@@ -2065,9 +2349,10 @@ def build_oee_visual_reports(prod_matched, handler_matched, out_dir, report_day_
 
         handler_html.append(
             html_header(
-                title=f"🔧 {handler_clean} - 24H OEE REPORT ({report_date})",
+                title=f"{EMOJI_WRENCH} {handler_clean} - 24H OEE REPORT ({report_date})",
                 subtitle=(
-                    f"📊 Handler-level production, active-site target UPH, efficiency loss, and downtime analysis"
+                    f"{EMOJI_CHART} Handler-level production, active-site target UPH, "
+                    "efficiency loss, and downtime analysis"
                 )
             )
         )
@@ -2340,12 +2625,16 @@ def build_rolling_7day_report(
         fig = go.Figure()
 
         metric_colors = {
-            "Output Attainment": "#B7DDF5",  # darker light blue
-            "Utilization": "#F7D85C",        # darker light yellow
-            "Yield": "#7FCC8A",              # darker PASS green
+            "Output Attainment": ANMYZ_LIGHT_BLUE,
+            "Utilization": ANMYZ_YELLOW,
+            "Yield": ANMYZ_LIGHT_GREEN,
         }
 
-        for metric_name in ["Output Attainment", "Utilization", "Yield"]:
+        for metric_name in [
+            "Output Attainment",
+            "Utilization",
+            "Yield",
+        ]:
             fig.add_trace(
                 go.Bar(
                     x=metrics_daily.index,
@@ -2353,59 +2642,112 @@ def build_rolling_7day_report(
                     name=metric_name,
                     marker=dict(
                         color=metric_colors.get(metric_name),
-                        line=dict(color="#9E9E9E", width=1.2)
+                        line=dict(
+                            color="#9E9E9E",
+                            width=1.0,
+                        ),
                     ),
                     opacity=0.95,
-                    text=None,
                     hovertemplate=(
-                        "<b>📅 Date:</b> %{x|%m/%d}<br>"
-                        f"<b>📊 {metric_name}:</b> %{{y:.1f}}%<extra></extra>"
+                        f"<b>{EMOJI_CALENDAR} Date:</b> %{{x|%m/%d/%Y}}<br>"
+                        f"<b>{EMOJI_CHART} {metric_name}:</b> %{{y:.1f}}%"
+                        "<extra></extra>"
                     ),
                 )
             )
 
+        # OEE trend line
         fig.add_trace(
             go.Scatter(
                 x=metrics_daily.index,
                 y=metrics_daily["OEE"],
                 mode="lines+markers+text",
                 name="OEE",
-                line=dict(color="black", width=2.5),
-                marker=dict(color="black", size=7),
-                text=metrics_daily["OEE"].round(1).astype(str) + "%",
+                line=dict(
+                    color=ANMYZ_DARK_SLATE,
+                    width=2.5,
+                ),
+                marker=dict(
+                    color=ANMYZ_DARK_SLATE,
+                    size=7,
+                ),
+                text=(
+                    metrics_daily["OEE"]
+                    .round(1)
+                    .astype(str)
+                    + "%"
+                ),
                 textposition="top center",
-                textfont=dict(size=11, color="black"),
+                textfont=dict(
+                    size=11,
+                    color=ANMYZ_DARK_SLATE,
+                ),
                 hovertemplate=(
-                    "<b>📅 Date:</b> %{x|%m/%d}<br>"
-                    "<b>🎯 OEE:</b> %{y:.1f}%<extra></extra>"
+                    f"<b>{EMOJI_CALENDAR} Date:</b> %{{x|%m/%d/%Y}}<br>"
+                    f"<b>{EMOJI_CHART} {metric_name}:</b> %{{y:.1f}}%"
+                    "<extra></extra>"
                 ),
             )
+        )
+
+        # Configured OEE target
+        target_oee_pct = TARGET_OEE * 100
+
+        fig.add_hline(
+            y=target_oee_pct,
+            line=dict(
+                color="#D73027",
+                width=2,
+                dash="dash",
+            ),
+            annotation_text=f"OEE Target: {target_oee_pct:.0f}%",
+            annotation_position="top right",
+            annotation=dict(
+                font=dict(
+                    size=11,
+                    color="#D73027",
+                ),
+                bgcolor="rgba(255,255,255,0.85)",
+                bordercolor="#D73027",
+                borderwidth=1,
+                borderpad=4,
+            ),
         )
 
         fig.update_layout(
             title=dict(
                 text=f"<b>{title}</b>",
                 x=0.01,
-                xanchor="left"
+                xanchor="left",
             ),
-            height=455,
-            margin=dict(l=70, r=30, t=95, b=60),
+            height=480,
+            barmode="group",
+            bargap=0.18,
+            hovermode="x unified",
+            margin=dict(
+                l=70,
+                r=35,
+                t=105,
+                b=65,
+            ),
             legend=dict(
                 orientation="h",
-                yanchor="top",
-                y=1.08,
+                yanchor="bottom",
+                y=1.02,
                 xanchor="left",
                 x=0,
                 title_text="",
             ),
             paper_bgcolor=PLOT_BG,
             plot_bgcolor=PLOT_BG,
-            font=dict(family="Arial", color="#222222"),
-            hovermode="x unified",
+            font=dict(
+                family=PLOT_FONT_FAMILY,
+                color="#222222",
+            ),
             hoverlabel=dict(
                 bgcolor="white",
                 font_size=12,
-                font_family="Arial",
+                font_family=PLOT_FONT_FAMILY,
                 font_color="#222222",
                 bordercolor="#BDBDBD",
             ),
@@ -2414,18 +2756,203 @@ def build_rolling_7day_report(
         fig.update_yaxes(
             title_text="%",
             range=[0, 110],
-            gridcolor="#E5E5E5"
+            gridcolor="#E5E5E5",
+            zeroline=False,
         )
 
         fig.update_xaxes(
             tickmode="array",
-            tickvals=all_days,
-            ticktext=[pd.Timestamp(d).strftime("%m/%d") for d in all_days],
+            tickvals=metrics_daily.index,
+            ticktext=[
+                pd.Timestamp(day).strftime("%m/%d")
+                for day in metrics_daily.index
+            ],
             gridcolor="#E5E5E5",
         )
 
         return fig
+        
+    def make_daily_metrics_table(metrics_daily, title):
+        """
+        Creates a transposed daily metrics table.
 
+        Rows:
+        - Output Attainment
+        - Utilization
+        - Yield
+        - OEE
+
+        Columns:
+        - Each report date
+
+        Trend symbols compare each day against the previous day:
+        ▲ = increased
+        ▼ = decreased
+        → = no meaningful change
+        """
+
+        table_df = metrics_daily.copy()
+
+        metric_order = [
+            "Output Attainment",
+            "Utilization",
+            "Yield",
+            "OEE",
+        ]
+
+        table_df = table_df[metric_order]
+
+        # Day-over-day change for each metric
+        daily_change = table_df.diff()
+
+        TREND_TOLERANCE = 0.05
+
+        def format_metric_value(value, change, is_first_day=False):
+            if pd.isna(value):
+                return "-"
+
+            value_text = f"{value:.1f}%"
+
+            if is_first_day or pd.isna(change):
+                return f"→ {value_text}"
+
+            if change > TREND_TOLERANCE:
+                return f"▲ {value_text}"
+
+            if change < -TREND_TOLERANCE:
+                return f"▼ {value_text}"
+
+            return f"→ {value_text}"
+
+        # Transpose:
+        # original = dates as rows, metrics as columns
+        # result   = metrics as rows, dates as columns
+        transposed_values = []
+
+        for metric_name in metric_order:
+            row_values = []
+
+            for column_number, report_day in enumerate(table_df.index):
+                value = table_df.loc[report_day, metric_name]
+                change = daily_change.loc[report_day, metric_name]
+
+                row_values.append(
+                    format_metric_value(
+                        value=value,
+                        change=change,
+                        is_first_day=(column_number == 0),
+                    )
+                )
+
+            transposed_values.append(row_values)
+
+        date_headers = [
+            f"<b>{pd.Timestamp(report_day).strftime('%m/%d')}</b>"
+            for report_day in table_df.index
+        ]
+
+        metric_labels = [
+            "<b>Output Attainment</b>",
+            "<b>Utilization</b>",
+            "<b>Yield</b>",
+            "<b>OEE</b>",
+        ]
+
+        # Color the arrows and values by direction
+        cell_font_colors = []
+
+        # First column: metric names
+        cell_font_colors.append(["#222222"] * len(metric_order))
+
+        # One color list for every date column
+        for date_position, report_day in enumerate(table_df.index):
+            date_colors = []
+
+            for metric_name in metric_order:
+                change = daily_change.loc[report_day, metric_name]
+
+                if date_position == 0 or pd.isna(change):
+                    date_colors.append("#666666")
+                elif change > TREND_TOLERANCE:
+                    date_colors.append("#2E7D32")
+                elif change < -TREND_TOLERANCE:
+                    date_colors.append("#B22222")
+                else:
+                    date_colors.append("#666666")
+
+            cell_font_colors.append(date_colors)
+
+        table_values = [metric_labels]
+
+        for date_position in range(len(table_df.index)):
+            table_values.append([
+                transposed_values[metric_position][date_position]
+                for metric_position in range(len(metric_order))
+            ])
+
+        column_count = len(table_df.index) + 1
+
+        fig = go.Figure(
+            data=[
+                go.Table(
+                    columnwidth=[180] + [110] * len(table_df.index),
+                    header=dict(
+                        values=["<b>Metric</b>"] + date_headers,
+                        fill_color="#EDEDED",
+                        align="center",
+                        font=dict(
+                            family=PLOT_FONT_FAMILY,
+                            color="#222222",
+                            size=11,
+                        ),
+                        line_color="#BDBDBD",
+                        line_width=1,
+                        height=32,
+                    ),
+                    cells=dict(
+                        values=table_values,
+                        fill_color=[
+                            ["#F7F7F7"] * len(metric_order)
+                        ] + [
+                            ["#FFFFFF"] * len(metric_order)
+                            for _ in range(column_count - 1)
+                        ],
+                        align=["left"] + ["center"] * len(table_df.index),
+                        font=dict(
+                            family=PLOT_FONT_FAMILY,
+                            color=cell_font_colors,
+                            size=11,
+                        ),
+                        line_color="#D0D0D0",
+                        line_width=1,
+                        height=32,
+                    ),
+                )
+            ]
+        )
+
+        fig.update_layout(
+            title=dict(
+                text=f"<b>{title}</b>",
+                x=0.01,
+                xanchor="left",
+            ),
+            height=285,
+            margin=dict(
+                l=20,
+                r=20,
+                t=65,
+                b=20,
+            ),
+            paper_bgcolor=PLOT_BG,
+            font=dict(
+                family=PLOT_FONT_FAMILY,
+                color="#222222",
+            ),
+        )
+
+        return fig
+    
     def make_top_losses_table(event_pivot_sec_scaled, h_events, title):
         total_available_sec = len(all_days) * 24 * 3600
 
@@ -2503,25 +3030,61 @@ def build_rolling_7day_report(
             axis=1
         )
 
-        def loss_pct_ryg_label(x):
-            if x >= 15:
-                return f"🔴 {x:.2f}%"
-            elif x >= 5:
-                return f"🟡 {x:.2f}%"
-            else:
-                return f"🟢 {x:.2f}%"
+        TREND_TOLERANCE = 0.05
 
 
-        def trend_label(x):
-            if x > 0:
-                return f"🔴 {x:+.2f}%"
-            elif x < 0:
-                return f"🟢 {x:+.2f}%"
-            else:
-                return f"⚪ {x:+.2f}%"
+        def loss_pct_label(x):
+            """
+            Absolute 7-day downtime loss percentage.
 
-        total_loss["loss_pct_label"] = total_loss["loss_pct"].map(loss_pct_ryg_label)
-        total_loss["trend_pct_label"] = total_loss["trend_pct"].map(trend_label)
+            Lower is better:
+            - Red    : 15% or higher
+            - Amber  : 5% to below 15%
+            - Green  : below 5%
+            """
+            return f"{x:.2f}%"
+
+
+        def trend_pct_label(x):
+            """
+            Latest-day loss compared with the previous six-day average.
+
+            Positive = loss increased, which is unfavorable.
+            Negative = loss decreased, which is favorable.
+            """
+            if x > TREND_TOLERANCE:
+                return f"▲ {x:+.2f}%"
+
+            if x < -TREND_TOLERANCE:
+                return f"▼ {x:+.2f}%"
+
+            return f"→ {x:+.2f}%"
+
+        total_loss["loss_pct_label"] = (
+            total_loss["loss_pct"]
+            .map(loss_pct_label)
+        )
+
+        total_loss["trend_pct_label"] = (
+            total_loss["trend_pct"]
+            .map(trend_pct_label)
+        )
+        
+        loss_pct_colors = total_loss["loss_pct"].map(
+            lambda x: (
+                "#B22222" if x >= 15
+                else "#B8860B" if x >= 5
+                else "#2E7D32"
+            )
+        ).tolist()
+
+        trend_pct_colors = total_loss["trend_pct"].map(
+            lambda x: (
+                "#B22222" if x > TREND_TOLERANCE
+                else "#2E7D32" if x < -TREND_TOLERANCE
+                else "#666666"
+            )
+        ).tolist()
 
         fig = go.Figure(
             data=[
@@ -2532,13 +3095,17 @@ def build_rolling_7day_report(
                             "<b>Rank</b>",
                             "<b>Handler Event</b>",
                             "<b>Lost Time</b>",
-                            "<b>Event Occurrences</b>",
-                            "<b>7-Day Loss %</b>",
-                            "<b>Trend % (Today vs Prev 6D)</b>",
+                            "<b>Handler Event Count</b>",
+                            "<b>7-Day Loss %<br>(Lower is better)</b>",
+                            "<b>Trend %<br>(Today vs Prev 6D Avg)</b>",
                         ],
                         fill_color="#FFFFFF",
                         align="left",
-                        font=dict(color="black", size=11),
+                        font=dict(
+                            family=PLOT_FONT_FAMILY,
+                            color="black",
+                            size=11,
+                        ),
                         line_color="#BDBDBD",
                     ),
                     cells=dict(
@@ -2553,15 +3120,16 @@ def build_rolling_7day_report(
                         fill_color="#FFFFFF",
                         align="left",
                         font=dict(
+                            family=PLOT_FONT_FAMILY,
                             color=[
-                                "black",
-                                "black",
-                                "#D95F5F",
-                                "black",
-                                "black",
-                                "black",
+                                ["black"] * len(total_loss),
+                                ["black"] * len(total_loss),
+                                ["#D95F5F"] * len(total_loss),
+                                ["black"] * len(total_loss),
+                                loss_pct_colors,
+                                trend_pct_colors,
                             ],
-                            size=11
+                            size=11,
                         ),
                         height=28,
                         line_color="#D0D0D0",
@@ -2575,20 +3143,21 @@ def build_rolling_7day_report(
             height=400,
             margin=dict(l=20, r=20, t=65, b=20),
             paper_bgcolor=PLOT_BG,
-            font=dict(family="Arial", color="#222222"),
+            font=dict(family=PLOT_FONT_FAMILY, color="#222222"),
         )
 
-        return fig
+        return apply_plotly_font(fig)
 
     def html_header(title, subtitle):
         return f"""
         <html>
         <head>
             <meta charset="utf-8">
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
             <title>{title}</title>
             <style>
                 body {{
-                    font-family: Arial, sans-serif;
+                    font-family: {HTML_FONT_FAMILY};
                     margin: 20px;
                     background: #FAFAFA;
                     color: #222222;
@@ -2639,12 +3208,14 @@ def build_rolling_7day_report(
 
     html_parts.append(
         html_header(
-            title="📈 Rolling 7-Day OEE Report",
-            subtitle=(
-                f"📅 {rolling_start_date.strftime('%m/%d/%Y')} – "
-                f"{rolling_end_date.strftime('%m/%d/%Y')} | "
-                f"📈 Daily OEE trend, Output Attainment, Utilization, Yield, and Top Downtime Losses"
-            )
+        title=f"{EMOJI_TREND} Rolling 7-Day OEE Report",
+        subtitle=(
+            f"{EMOJI_CALENDAR} "
+            f"{rolling_start_date.strftime('%m/%d/%Y')} – "
+            f"{rolling_end_date.strftime('%m/%d/%Y')} | "
+            f"{EMOJI_CHART} Daily OEE trend, Output Attainment, "
+            "Utilization, Yield, and Top Downtime Losses"
+        )
         )
     )
 
@@ -2666,7 +3237,18 @@ def build_rolling_7day_report(
 
         fig_metric = make_metric_fig(
             metrics_daily,
-            title=f"Handler {handler_clean} - Rolling 7-Day OEE Metrics",
+            title=(
+                f"Handler {handler_clean} - "
+                "Rolling 7-Day OEE Metrics"
+            ),
+        )
+
+        fig_metrics_table = make_daily_metrics_table(
+            metrics_daily,
+            title=(
+                f"Handler {handler_clean} - "
+                "Daily OEE Metrics Data"
+            ),
         )
 
         fig_losses = make_top_losses_table(
@@ -2674,13 +3256,43 @@ def build_rolling_7day_report(
             h_events,
             title=f"Handler {handler_clean} - Top Losses",
         )
-        html_parts.append(f"<h2>Handler {handler_clean}</h2>")
-        html_parts.append("<div class='chart-block'>")
-        html_parts.append(to_html(fig_metric, include_plotlyjs="cdn", full_html=False))
-        html_parts.append(to_html(fig_losses, include_plotlyjs=False, full_html=False))
-        html_parts.append("</div>")
+        
+        html_parts.append(
+            f"<h2>Handler {handler_clean}</h2>"
+        )
 
-    html_parts.append("</body></html>")
+        html_parts.append(
+            "<div class='chart-block'>"
+        )
+
+        # Rolling 7-day OEE chart
+        html_parts.append(
+            to_html(
+                fig_metric,
+                include_plotlyjs="cdn",
+                full_html=False,
+            )
+        )
+
+        # Daily numerical data table
+        html_parts.append(
+            to_html(
+                fig_metrics_table,
+                include_plotlyjs=False,
+                full_html=False,
+            )
+        )
+
+        # Top downtime losses
+        html_parts.append(
+            to_html(
+                fig_losses,
+                include_plotlyjs=False,
+                full_html=False,
+            )
+        )
+
+    html_parts.append("</div>")
 
     rolling_path = out_dir / "oee_rolling_7day_report.html"
     rolling_path.write_text("".join(html_parts), encoding="utf-8")
@@ -2765,7 +3377,10 @@ def export_csvs(
 def main():
     # Kill any previously opened Streamlit process before running again
     os.system("taskkill /F /IM streamlit.exe >nul 2>&1")
-    os.system("taskkill /F /IM python.exe /FI \"WINDOWTITLE eq streamlit*\" >nul 2>&1")
+    os.system(
+        "taskkill /F /IM python.exe "
+        "/FI \"WINDOWTITLE eq streamlit*\" >nul 2>&1"
+    )
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -2773,16 +3388,37 @@ def main():
     print("TXT Folder        :", TXT_FOLDER)
     print("Output Dir        :", OUT_DIR)
 
-    # -----------------------------
-    # Load input files
-    # -----------------------------
+    # -------------------------------------------------
+    # Validate local historical dataset folders
+    # -------------------------------------------------
 
-    print(f"Report Date        : {REPORT_DATE.date()}")
-    print(f"Rolling 7D Start   : {ROLLING_START_DATE.date()}")
-    print(f"Rolling 7D End     : {ROLLING_END_DATE.date()}")
+    if not HANDLER_CSV_FOLDER.exists():
+        raise FileNotFoundError(
+            f"Handler CSV folder does not exist: "
+            f"{HANDLER_CSV_FOLDER}"
+        )
 
-    print(f"Report Date  : {REPORT_DATE.date()}")
-    print(f"TXT Folder   : {TXT_FOLDER}")
+    if not TXT_FOLDER.exists():
+        raise FileNotFoundError(
+            f"Anonymized TXT folder does not exist: "
+            f"{TXT_FOLDER}"
+        )
+
+    # -------------------------------------------------
+    # Automatically detect latest historical report date
+    # -------------------------------------------------
+
+    (
+        REPORT_DATE,
+        ROLLING_START_DATE,
+        ROLLING_END_DATE,
+    ) = detect_available_report_window(HANDLER_CSV_FOLDER)
+
+    print("\nReport configuration:")
+    print(f"Report Date      : {REPORT_DATE.date()}")
+    print(f"Rolling 7D Start : {ROLLING_START_DATE.date()}")
+    print(f"Rolling 7D End   : {ROLLING_END_DATE.date()}")
+    print(f"TXT Folder       : {TXT_FOLDER}")
 
     if USE_FTP_DOWNLOAD:
         for d in pd.date_range(ROLLING_START_DATE, ROLLING_END_DATE, freq="D"):
@@ -3002,7 +3638,3 @@ if __name__ == "__main__":
 
 
 # In[ ]:
-
-
-
-
