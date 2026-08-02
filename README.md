@@ -34,23 +34,6 @@ The analytics workflow is designed around semiconductor final-test operations, e
 
 # 🚀 Interactive Dashboard Demo
 
-## 🔧 Overall 24-Hour Per-Handler OEE Dashboard
-
-Equipment-level dashboard for analyzing individual handler performance.
-
-### Features
-
-* Handler KPI summary
-* Hourly production analysis for the whole 24 hours of the previous day
-* Equipment downtime monitoring
-* Downtime event distribution
-* Handler-specific loss analysis
-
-**🌐 Launch Interactive Dashboard Demo:**  
-
-- [oee_per_handler_report_HDLR02.html](https://kenbugasto.github.io/semiconductor-oee-analytics/demo/oee_per_handler_report_HDLR02.html)
-- [oee_per_handler_report_HDLR07.html](https://kenbugasto.github.io/semiconductor-oee-analytics/demo/oee_per_handler_report_HDLR07.html)
-
 ## 📈 Rolling 7-Day OEE Dashboard
 
 Historical manufacturing dashboard for monitoring KPI trends over time.
@@ -68,6 +51,22 @@ Historical manufacturing dashboard for monitoring KPI trends over time.
 
 - [oee_rolling_7day_report.html](https://kenbugasto.github.io/semiconductor-oee-analytics/demo/oee_rolling_7day_report.html)
 
+## 🔧 Overall 24-Hour Per-Handler OEE Dashboard
+
+Equipment-level dashboard for analyzing individual handler performance.
+
+### Features
+
+* Handler KPI summary
+* Hourly production analysis for the whole 24 hours of the previous day
+* Equipment downtime monitoring
+* Downtime event distribution
+* Handler-specific loss analysis
+
+**🌐 Launch Interactive Dashboard Demo:**  
+
+- [oee_per_handler_report_HDLR02.html](https://kenbugasto.github.io/semiconductor-oee-analytics/demo/oee_per_handler_report_HDLR02.html)
+- [oee_per_handler_report_HDLR07.html](https://kenbugasto.github.io/semiconductor-oee-analytics/demo/oee_per_handler_report_HDLR07.html)
 ---
 
 # 📈 Business Impact
