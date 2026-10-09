@@ -81,10 +81,6 @@ These are the implementation’s metric definitions. Interpretation depends on t
 
 ## 🛣️ Potential Future Improvements
 
-The following are proposed enhancements, not implemented functionality:
+Engineering filtering: Add equipment, date, and downtime-category filters to help engineers narrow investigations.
 
-- **Data-quality visibility:** Report unmatched lots, invalid timestamps, and missing production records rather than leaving gaps unexplained.
-- **KPI validation:** Add known-case checks for overlapping downtime, events spanning hourly boundaries, zero-output periods, and daily aggregation.
-- **Pipeline monitoring:** Track runtime, ingestion counts, data freshness, and failed runs.
-- **Engineering filtering:** Expand filtering by equipment, date, and downtime category.
-- **Parametric analysis:** Connect SPC capability outputs with equipment losses and yield trends for broader engineering investigation.
+SPC integration: Link process-capability results with equipment losses and yield trends to help investigate potential relationships between process variation and manufacturing performance.
