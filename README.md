@@ -81,6 +81,5 @@ These are the implementation’s metric definitions. Interpretation depends on t
 
 ## 🛣️ Potential Future Improvements
 
-Engineering filtering: Add equipment, date, and downtime-category filters to help engineers narrow investigations.
-
-SPC integration: Link process-capability results with equipment losses and yield trends to help investigate potential relationships between process variation and manufacturing performance.
+- Engineering filtering: Add equipment, date, and downtime-category filters to help engineers narrow investigations.
+- SPC integration: Link process-capability results with equipment losses and yield trends to help investigate potential relationships between process variation and manufacturing performance.
